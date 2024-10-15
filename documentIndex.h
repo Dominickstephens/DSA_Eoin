@@ -47,22 +47,34 @@ public:
     // Print the document index
     void print() {
         for (const auto& bucket : table) {
-            for (const auto& pair : bucket) {
-                cout << pair.first << ": ";
-                for (const auto& value : pair.second) {
-                    cout << value << " ";
+            if (!bucket.empty()) {
+                for (const auto& pair : bucket) {
+                    cout << pair.first << ": ";
+                    if (!pair.second.empty()) {
+                        for (size_t i = 0; i < pair.second.size(); ++i) {
+                            cout << pair.second[i];
+                            if (i < pair.second.size() - 1) cout << ", "; // Comma separation
+                        }
+                    } else {
+                        cout << "No Values"; // Handle empty value case
+                    }
+                    cout << endl;
                 }
-                cout << endl;
             }
+//            else {
+//                cout << "Empty Bucket" << endl; // Optional: output for empty buckets
+//            }
         }
     }
+
+
 
     // Remove a specific value from all key-value pairs
     void removeValue(const typename ValueType::value_type& value) {
         for (auto& bucket : table) {
             for (auto& pair : bucket) {
-                auto& vec = pair.second;
-                vec.erase(remove(vec.begin(), vec.end(), value), vec.end());  // Remove the value from the vector
+                auto& vec = pair.second;  // Assuming pair.second is of type ValueType
+                vec.remove(value);  // Call the custom remove method defined in vectorClass
             }
         }
     }

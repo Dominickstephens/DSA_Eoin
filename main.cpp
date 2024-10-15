@@ -49,7 +49,7 @@ int main() {
 //        }
 //        cout << endl;
 //    }
-
+//
 //    index.print();
 
 
@@ -61,23 +61,37 @@ int main() {
     v.push(30);
     v.push(40);
 
-    // Print the elements
+// Print the elements
     v.print(); // Output: 10 20 30 40
 
     cout << "Element at index 2: " << v.get(2) << endl; // Output: 30
     cout << "Size of vector: " << v.size() << endl;     // Output: 4
     cout << "Capacity of vector: " << v.getcapacity() << endl; // Output: 4 or more
 
-    documentIndex<string, vector<int>> index;
+// Use vectorClass<int> in documentIndex
+    documentIndex<string, vectorClass<int>> index;
+    vectorClass<int> v1;
 
-    index.insert("document1", {1, 2, 3});
-    index.insert("document2", {4, 5, 6});
+    v1.push(10);
+    v1.push(20);
+    v1.push(30);
+    v1.push(40);
+
+    vectorClass<int> v2;
+
+    v2.push(10);
+    v2.push(50);
+    v2.push(60);
+
+    index.insert("document1", v1);
+    index.insert("document2", v2);
 
     index.print();
 
-    index.removeValue(5);
-    cout << "After removing value 5:" << endl;
+    index.removeValue(10);
+    cout << "After removing value 10:" << endl;
     index.print();
 
     return 0;
+
 }

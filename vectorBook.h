@@ -1,27 +1,45 @@
-#ifndef VECTORBOOK_H
-#define VECTORBOOK_H
+#ifndef VECTORCLASS_H
+#define VECTORCLASS_H
 
 #include <iostream>
-using namespace std;
 
 template <typename T>
 class vectorClass {
-    T* arr;
-    int capacity;
-    int current;
-
 public:
+    // Define value_type
+    using value_type = T;
+
     vectorClass();
     ~vectorClass();
     void push(T data);
     void push(T data, int index);
+    void erase(int index);  // Declare erase by index
+    void erase(const T& value);  // Declare erase by value
     T get(int index);
     void pop();
-    int size();
+    int size() const;
     int getcapacity();
     void print();
+    void remove(const T& value);  // Add declaration for remove method
+
+    T* begin() { return data; }
+    T* end() { return data + current; }
+
+    const T* begin() const { return data; }
+    const T* end() const { return data + current; }
+
+    bool empty() const; // Declaration of empty method
+
+    T& operator[](int index);               // Non-const version
+    const T& operator[](int index) const;   // Const version
+
+private:
+    T* arr;
+    T* data;
+    int capacity;
+    int current;
 };
 
-#include "vectorBook.tpp"  // Include the template implementation
+#include "vectorBook.tpp"  // Include your implementation file
 
-#endif
+#endif // VECTORCLASS_H
