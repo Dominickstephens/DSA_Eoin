@@ -4,83 +4,10 @@
 #include <functional>
 #include <filesystem>
 #include <fstream>
+#include "vectorBook.h"
+#include "documentIndex.h"
 
 using namespace std;
-
-template<typename KeyType, typename ValueType>
-
-class documentIndex {
-public:
-    documentIndex(size_t size = 10) : table(size), numElements(0) {}
-
-    // Insert a key-value pair
-    void insert(const KeyType& key, const ValueType& value) {
-        if (numElements >= table.size()) {
-            rehash();
-        }
-
-        size_t index = hashFunction(key) % table.size();
-        for (auto& pair : table[index]) {
-            if (pair.first == key) {
-                pair.second = value; // Update value if key exists
-                return;
-            }
-        }
-        table[index].emplace_back(key, value); // Add new pair if key doesn't exist
-        ++numElements;
-    }
-
-    // Find a value by key
-    ValueType* find(const KeyType& key) {
-        size_t index = hashFunction(key) % table.size();
-        for (auto& pair : table[index]) {
-            if (pair.first == key) {
-                return &pair.second;
-            }
-        }
-        return nullptr;
-    }
-
-    void print() {
-        for (const auto& bucket : table) {
-            for (const auto& pair : bucket) {
-                cout << pair.first << ": ";
-                for (const auto& value : pair.second) {
-                    cout << value << " ";
-                }
-                cout << endl;
-            }
-        }
-    }
-
-    void removeValue(const typename ValueType::value_type& value) {
-        for (auto& bucket : table) {
-            for (auto& pair : bucket) {
-                auto& vec = pair.second;
-                vec.erase(remove(vec.begin(), vec.end(), value), vec.end()); // Remove the value from the vector
-            }
-        }
-    }
-
-private:
-    vector<list<pair<KeyType, ValueType>>> table; // The hash table (buckets)
-    size_t numElements;  // Number of elements in the map
-    hash<KeyType> hashFunction;  // Hash function
-
-    // Resize and rehash the table when it becomes too full
-    void rehash() {
-        size_t newSize = table.size() * 2;
-        vector<list<pair<KeyType, ValueType>>> newTable(newSize);
-
-        for (const auto& bucket : table) {
-            for (const auto& pair : bucket) {
-                size_t newIndex = hashFunction(pair.first) % newSize;
-                newTable[newIndex].emplace_back(pair);
-            }
-        }
-        table = move(newTable);
-    }
-};
 
 string removePunctuations(string& s) {
     std::string result = "";
@@ -94,37 +21,63 @@ string removePunctuations(string& s) {
 }
 
 int main() {
-    documentIndex<string, vector<string>> index;
-
-    using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
-    string bookPath = R"(C:\Users\Dominick\CLionProjects\DSA_project\books)";
-    for (const auto& dirEntry : recursive_directory_iterator(bookPath)) {
-        ifstream file(dirEntry.path());
-        if (file.is_open()) {
-            string line;
-            while (getline(file, line)) {
-                istringstream iss(line);
-                string word;
-                while (iss >> word) {
-                    word = removePunctuations(word);
-                    index.insert(word, {dirEntry.path().string()});
-                }
-            }
-            file.close();
-        }
-    }
-
-//    print out find
-    auto* value = index.find("Fem├¡neo");
-    if (value) {
-        for (const auto& book : *value) {
-            cout << book << " ";
-        }
-        cout << endl;
-    }
+//    documentIndex<string, vector<string>> index;
+//
+//    using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
+//    string bookPath = R"(C:\Users\Dominick\CLionProjects\DSA_project\books)";
+//    for (const auto& dirEntry : recursive_directory_iterator(bookPath)) {
+//        ifstream file(dirEntry.path());
+//        if (file.is_open()) {
+//            string line;
+//            while (getline(file, line)) {
+//                istringstream iss(line);
+//                string word;
+//                while (iss >> word) {
+//                    word = removePunctuations(word);
+//                    index.insert(word, {dirEntry.path().string()});
+//                }
+//            }
+//            file.close();
+//        }
+//    }
+//
+////    print out find
+//    auto* value = index.find("Fem├¡neo");
+//    if (value) {
+//        for (const auto& book : *value) {
+//            cout << book << " ";
+//        }
+//        cout << endl;
+//    }
 
 //    index.print();
 
+
+    // Create an instance of vectorClass with int
+    vectorClass<int> v;
+
+    v.push(10);
+    v.push(20);
+    v.push(30);
+    v.push(40);
+
+    // Print the elements
+    v.print(); // Output: 10 20 30 40
+
+    cout << "Element at index 2: " << v.get(2) << endl; // Output: 30
+    cout << "Size of vector: " << v.size() << endl;     // Output: 4
+    cout << "Capacity of vector: " << v.getcapacity() << endl; // Output: 4 or more
+
+    documentIndex<string, vector<int>> index;
+
+    index.insert("document1", {1, 2, 3});
+    index.insert("document2", {4, 5, 6});
+
+    index.print();
+
+    index.removeValue(5);
+    cout << "After removing value 5:" << endl;
+    index.print();
 
     return 0;
 }
