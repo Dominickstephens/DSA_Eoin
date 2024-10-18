@@ -10,6 +10,10 @@ public:
     using value_type = T;
 
     vectorClass();
+
+    vectorClass(const vectorClass<T> &other);
+    vectorClass<T>& operator=(const vectorClass<T>& other); // Assignment operators
+
     ~vectorClass();
     void push(T data);
     void push(T data, int index);
@@ -19,7 +23,7 @@ public:
     void pop();
     int size() const;
     int getcapacity();
-    void print();
+    void print() const;
     void remove(const T& value);  // Add declaration for remove method
 
     T* begin() { return data; }
@@ -38,6 +42,8 @@ private:
     T* data;
     int capacity;
     int current;
+
+    void push(const vectorClass<T> &other);
 };
 
 #include "vectorBook.tpp"  // Include your implementation file

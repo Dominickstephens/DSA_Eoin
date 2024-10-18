@@ -7,6 +7,8 @@
 #include <utility>
 #include <algorithm>
 #include <functional>
+#include "IndexEntry.h"
+
 
 using namespace std;
 
@@ -15,21 +17,24 @@ class documentIndex {
 public:
     // Constructor
     documentIndex(size_t size = 10) : table(size), numElements(0) {}
+    float loadFactor = 0.75;
 
     // Insert a key-value pair
-    void insert(const KeyType& key, const ValueType& value) {
-        if (numElements >= table.size()) {
+    void insert(const KeyType& key, const IndexEntry& value) {
+        if (numElements >= table.size() * loadFactor) {
             rehash();
         }
 
         size_t index = hashFunction(key) % table.size();
         for (auto& pair : table[index]) {
             if (pair.first == key) {
-                pair.second = value;  // Update value if key exists
+                pair.second.push(value);  // Update value if key exists
                 return;
             }
         }
-        table[index].emplace_back(key, value);  // Add new pair if key doesn't exist
+        vectorClass<IndexEntry> vec;
+        vec.push(value);
+        table[index].emplace_back(key, vec);  // Add new pair if key doesn't exist
         ++numElements;
     }
 
