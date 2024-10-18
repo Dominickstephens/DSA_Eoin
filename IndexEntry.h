@@ -17,5 +17,14 @@ struct IndexEntry {
     vectorClass<int> lineNumbers; // List of line numbers where the word appears
 };
 
+// Overload operator<< for IndexEntry
+ostream& operator<<(ostream& os, const IndexEntry& entry) {
+    os << "FilePath: " << entry.filePath << ", FileName: " << entry.fileName
+       << ", Frequency: " << entry.frequency << ", TF-IDF: " << entry.tf_idf
+       << ", Line Numbers: ";
+    entry.lineNumbers.print();
+    return os;
+}
+
 
 #endif //DSA_PROJECT_INDEXENTRY_H

@@ -16,7 +16,7 @@ template <typename KeyType, typename ValueType>
 class documentIndex {
 public:
     // Constructor
-    documentIndex(size_t size = 10) : table(size), numElements(0) {}
+    explicit documentIndex(size_t size = 10) : table(size), numElements(0) {}
     float loadFactor = 0.75;
 
     // Insert a key-value pair
