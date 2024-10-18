@@ -28,7 +28,13 @@ public:
         size_t index = hashFunction(key) % table.size();
         for (auto& pair : table[index]) {
             if (pair.first == key) {
-                pair.second.push(value);  // Update value if key exists
+                for (size_t i = 0; i < pair.second.size(); ++i) {
+                    if (pair.second[i].filePath == value.filePath) {
+                        pair.second[i] = value;  // Replace existing value if duplicate
+                        return;
+                    }
+                }
+                pair.second.push(value);  // Add value if no duplicate found
                 return;
             }
         }
@@ -72,6 +78,22 @@ public:
         }
     }
 
+    // Print the first key-value pair in the document index
+    void printFirstPair() {
+        for (const auto& bucket : table) {
+            if (!bucket.empty()) {  // Check for the first non-empty bucket
+                const auto& firstPair = bucket.front();  // Get the first key-value pair in the bucket
+                cout << "First Key: " << firstPair.first << ", Values: ";
+                for (size_t i = 0; i < firstPair.second.size(); ++i) {
+                    cout << firstPair.second[i];
+                    if (i < firstPair.second.size() - 1) cout << ", ";
+                }
+                cout << endl;
+                return;  // Exit after printing the first pair
+            }
+        }
+        cout << "No elements in the document index." << endl;
+    }
 
 
     // Remove a specific value from all key-value pairs

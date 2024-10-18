@@ -38,7 +38,7 @@ int main() {
     string bookPath = R"(../books)";
     for (const auto& dirEntry : recursive_directory_iterator(bookPath)) {
         ifstream file(dirEntry.path());
-        cout << "Processing " << dirEntry.path() << endl;
+//        cout << "Processing " << dirEntry.path() << endl;
         if (file.is_open()) {
             string line;
             while (getline(file, line)) {
@@ -53,14 +53,14 @@ int main() {
                     entry.frequency = 1;
                     entry.tf_idf = 0;
                     entry.lineNumbers.push(1);
-//                    vectorClass<IndexEntry> entries;
-//                    entries.push(entry);
                     index.insert(word, entry);
                 }
             }
             file.close();
         }
     }
+
+    index.printFirstPair();
 
 //    IndexEntry entry;
 //    entry.filePath = "path";
