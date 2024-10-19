@@ -10,4 +10,5 @@ add_executable(DSA_project main.cpp
         include/search.h
         src/utils.cpp
         include/utils.h
-        books/ChristmasCarol.txt)
+        books/ChristmasCarol.txt
+        books/test.txt)
