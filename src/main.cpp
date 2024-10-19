@@ -60,6 +60,8 @@ int main() {
 
     deserialize(index2, "index.csv");
 
+    index2.printFirstPair();
+
 
 
     return 0;

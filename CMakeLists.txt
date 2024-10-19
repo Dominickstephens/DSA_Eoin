@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Add the main executable
 add_executable(DSA_project
-        main.cpp
+        src/main.cpp
         )
 
 # Enable testing
@@ -13,7 +13,7 @@ enable_testing()
 
 # Add a test executable
 add_executable(DSA_project_tests
-        test.cpp
+        src/test.cpp
         )  # Only include the test source file
 
 # Link the necessary source files directly for testing
