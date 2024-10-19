@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <functional>
 #include "IndexEntry.h"
+#include <cmath>
 
 
 using namespace std;
@@ -17,19 +18,20 @@ class documentIndex {
 public:
     // Constructor
     explicit documentIndex(size_t size = 10) : table(size), numElements(0) {}
-    float loadFactor = 0.75;
+
 
     // Insert a key-value pair
-    void insert(const KeyType& key, const IndexEntry& value) {
+    void insert(const KeyType& key, IndexEntry& value) {
         if (numElements >= table.size() * loadFactor) {
             rehash();
         }
 
-        size_t index = hashFunction(key) % table.size();
+        size_t index = stringHash(key) % table.size();
         for (auto& pair : table[index]) {
             if (pair.first == key) {
                 for (size_t i = 0; i < pair.second.size(); ++i) {
                     if (pair.second[i].filePath == value.filePath) {
+                        value.frequency += pair.second[i].frequency;
                         pair.second[i] = value;  // Replace existing value if duplicate
                         return;
                     }
@@ -44,9 +46,19 @@ public:
         ++numElements;
     }
 
+    void insertFullVector(const KeyType& key, const vectorClass<IndexEntry>& value) {
+        if (numElements >= table.size() * loadFactor) {
+            rehash();
+        }
+
+        size_t index = stringHash(key) % table.size();
+        table[index].emplace_back(key, value);  // Add new pair if key doesn't exist
+        ++numElements;
+    }
+
     // Find a value by key
     ValueType* find(const KeyType& key) {
-        size_t index = hashFunction(key) % table.size();
+        size_t index = stringHash(key) % table.size();
         for (auto& pair : table[index]) {
             if (pair.first == key) {
                 return &pair.second;
@@ -106,10 +118,22 @@ public:
         }
     }
 
+    vector<list<pair<KeyType, ValueType>>> table;
 private:
-    vector<list<pair<KeyType, ValueType>>> table;  // Hash table (buckets)
+    float loadFactor = 0.75;
+    const int PRIME_CONST = 31;
+
+
+    int stringHash (string key) {
+        int hashCode = 0;
+        for (int i = 0; i < key.length(); i++) {
+            hashCode += key[i] * pow(PRIME_CONST, i);
+        }
+        return hashCode;
+    }
+
+    // Hash table (buckets)
     size_t numElements;  // Number of elements in the map
-    hash<KeyType> hashFunction;  // Hash function
 
     // Resize and rehash the table when it becomes too full
     void rehash() {
@@ -118,11 +142,11 @@ private:
 
         for (const auto& bucket : table) {
             for (const auto& pair : bucket) {
-                size_t newIndex = hashFunction(pair.first) % newSize;
+                size_t newIndex = stringHash(pair.first) % newSize;
                 newTable[newIndex].emplace_back(pair);
             }
         }
-        table = move(newTable);
+        table = std::move(newTable);
     }
 };
 

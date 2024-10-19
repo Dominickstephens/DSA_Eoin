@@ -17,7 +17,6 @@ vectorClass<T>::~vectorClass() {
 template <typename T>
 void vectorClass<T>::push(T data) {
     if (current == capacity) {
-//        cout << "Doubling the size of the vector: " << capacity << endl;
         T* temp = new T[2 * capacity];
         for (int i = 0; i < capacity; i++) {
             temp[i] = arr[i];

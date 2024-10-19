@@ -17,13 +17,43 @@ struct IndexEntry {
     vectorClass<int> lineNumbers; // List of line numbers where the word appears
 };
 
-// Overload operator<< for IndexEntry
-ostream& operator<<(ostream& os, const IndexEntry& entry) {
-    os << "FilePath: " << entry.filePath << ", FileName: " << entry.fileName
-       << ", Frequency: " << entry.frequency << ", TF-IDF: " << entry.tf_idf
-       << ", Line Numbers: ";
-    entry.lineNumbers.print();
+std::ostream& operator<<(std::ostream& os, const IndexEntry& entry) {
+    os << entry.filePath << "," << entry.fileName << "," << entry.frequency << "," << entry.tf_idf << ",";
+
+    // Serialize line numbers (vectorClass<int>)
+    for (size_t i = 0; i < entry.lineNumbers.size(); ++i) {
+        os << entry.lineNumbers[i];
+        if (i < entry.lineNumbers.size() - 1) {
+            os << "|";  // Separate line numbers by pipe
+        }
+    }
     return os;
+}
+
+// Function to parse a serialized string into an IndexEntry
+IndexEntry parseIndexEntry(string& str) {
+    istringstream ss(str);
+    IndexEntry entry;
+    string lineNumbersStr;
+
+    // Extract filePath, fileName, frequency, and tf_idf
+    getline(ss, entry.filePath, ',');
+    getline(ss, entry.fileName, ',');
+    ss >> entry.frequency;
+    ss.ignore();  // Ignore the comma
+    ss >> entry.tf_idf;
+    ss.ignore();  // Ignore the comma
+
+    // Extract the line numbers (split by pipe "|")
+    getline(ss, lineNumbersStr);
+    istringstream lineNumbersStream(lineNumbersStr);
+    string lineNumber;
+
+    while (getline(lineNumbersStream, lineNumber, '|')) {
+        entry.lineNumbers.push(stoi(lineNumber));
+    }
+
+    return entry;
 }
 
 

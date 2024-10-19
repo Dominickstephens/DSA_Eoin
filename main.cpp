@@ -1,13 +1,13 @@
 #include <iostream>
-#include <list>
-#include <vector>
-#include <functional>
 #include <filesystem>
 #include <fstream>
 #include "vectorBook.h"
 #include "documentIndex.h"
 #include "IndexEntry.h"
+#include "serialization.h"
 #include <regex>
+#include <chrono>
+using namespace std::chrono;
 
 using namespace std;
 
@@ -17,7 +17,7 @@ string removePunctuationsAndLower(string& s) {
     for (char c : s) {
         if (regex_match(string(1, c), validChar)) { // Check if c matches the regex
             if (isalpha(c) && isupper(c)) {
-                c = tolower(c);
+                c = static_cast<char>(tolower(c));
             }
             result += c;
         }
@@ -41,21 +41,34 @@ int main() {
                 string word;
                 while (iss >> word) {
                     word = removePunctuationsAndLower(word);
-                    cout << word << endl;
                     IndexEntry entry;
                     entry.filePath = dirEntry.path().string();
                     entry.fileName = dirEntry.path().filename().string();
                     entry.frequency = 1;
                     entry.tf_idf = 0;
                     entry.lineNumbers.push(1);
+//                    time the function
+
+                    auto start = high_resolution_clock::now();
                     index.insert(word, entry);
+                    auto stop = high_resolution_clock::now();
+                    auto duration = duration_cast<microseconds>(stop - start);
+//                    cout << "Time taken by function: "
+//                         << duration.count() << " microseconds" << endl;
                 }
             }
             file.close();
         }
     }
 
-    index.printFirstPair();
+//    index.printFirstPair();
+    serialize(index, "index.csv");
+
+    documentIndex<string, vectorClass<IndexEntry>> index2;
+
+    deserialize(index2, "index.csv");
+
+
 
     return 0;
 
