@@ -47,14 +47,7 @@ int main() {
                     entry.frequency = 1;
                     entry.tf_idf = 0;
                     entry.lineNumbers.push(1);
-//                    time the function
-
-                    auto start = high_resolution_clock::now();
                     index.insert(word, entry);
-                    auto stop = high_resolution_clock::now();
-                    auto duration = duration_cast<microseconds>(stop - start);
-//                    cout << "Time taken by function: "
-//                         << duration.count() << " microseconds" << endl;
                 }
             }
             file.close();
