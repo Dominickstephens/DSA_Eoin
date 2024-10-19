@@ -6,7 +6,6 @@
 #include "IndexEntry.h"
 #include "serialization.h"
 #include <regex>
-#include <chrono>
 using namespace std::chrono;
 
 using namespace std;
