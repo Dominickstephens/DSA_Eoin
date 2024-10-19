@@ -41,6 +41,9 @@ int main() {
                 string word;
                 while (iss >> word) {
                     word = removePunctuationsAndLower(word);
+                    if (word.empty()) {
+                        continue;
+                    }
                     IndexEntry entry;
                     entry.filePath = dirEntry.path().string();
                     entry.fileName = dirEntry.path().filename().string();
