@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Dominick/CLionProjects/DSA_project/cmake-build-debug",
-		"source" : "C:/Users/Dominick/CLionProjects/DSA_project"
+		"build" : "C:/Users/rosie/Development/ise-year-two/scaling/DSA_Eoin/cmake-build-debug",
+		"source" : "C:/Users/rosie/Development/ise-year-two/scaling/DSA_Eoin"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 4
+		"minor" : 7
 	}
 }
