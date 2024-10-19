@@ -1,13 +1,15 @@
 # Ignore build artifacts
 /a.exe
+/autocomplete.exe
 /CMakeCache.txt
 /cmake_install.cmake
 /build.ninja
 /rules.ninja
 /ninja_log
 
-# Ignore CMake directories
+# Ignore CMake directories and files
 /CMakeFiles/
+CMakeLists.txt.user
 /CMakeCCompiler.cmake
 /CMakeCXXCompiler.cmake
 /CMakeRCCompiler.cmake
@@ -31,3 +33,8 @@
 # Ignore object files
 *.obj
 *.o
+
+# Ignore IDE settings
+.idea/
+*.iml
+*.xml
