@@ -13,12 +13,11 @@ struct IndexEntry {
     string filePath;     // The full path to the file
     string fileName;     // The name of the file
     int frequency{};            // Count of how often the word appears
-    long tf_idf{};              // Term frequency-inverse document frequency
     vectorClass<int> lineNumbers; // List of line numbers where the word appears
 };
 
 std::ostream& operator<<(std::ostream& os, const IndexEntry& entry) {
-    os << entry.filePath << "," << entry.fileName << "," << entry.frequency << "," << entry.tf_idf << ",";
+    os << entry.filePath << "," << entry.fileName << "," << entry.frequency << ",";
 
     // Serialize line numbers (vectorClass<int>)
     for (size_t i = 0; i < entry.lineNumbers.size(); ++i) {
@@ -40,8 +39,6 @@ IndexEntry parseIndexEntry(string& str) {
     getline(ss, entry.filePath, ',');
     getline(ss, entry.fileName, ',');
     ss >> entry.frequency;
-    ss.ignore();  // Ignore the comma
-    ss >> entry.tf_idf;
     ss.ignore();  // Ignore the comma
 
     // Extract the line numbers (split by pipe "|")

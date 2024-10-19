@@ -45,7 +45,6 @@ int main() {
                     entry.filePath = dirEntry.path().string();
                     entry.fileName = dirEntry.path().filename().string();
                     entry.frequency = 1;
-                    entry.tf_idf = 0;
                     entry.lineNumbers.push(1);
                     index.insert(word, entry);
                 }
