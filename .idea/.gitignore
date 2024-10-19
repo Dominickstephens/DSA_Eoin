@@ -6,3 +6,34 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# Ignore build artifacts
+/build/
+/cmake-build-debug/
+/cmake-build-release/
+*.obj
+*.o
+*.exe
+*.log
+*.ninja
+*.cache
+*.bin
+*.txt
+/cache-v2-*.json
+/rules.ninja
+/codemodel-v2-*.json
+/toolchains-v1-*.json
+/index-*.json
+/LastTest.log
+/CMakeCache.txt
+/CMakeFiles/
+/CMakeOutput.log
+/CMakeLists.txt.user
+
+# Ignore CLion-specific files
+.idea/
+*.iml
+
+# Ignore Ninja build system files
+.ninja_log
+.ninja_deps
+
