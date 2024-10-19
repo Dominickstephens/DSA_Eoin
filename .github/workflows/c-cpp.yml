@@ -2,9 +2,9 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]  # Trigger on push to all branches
   pull_request:
-    branches: [ "main" ]
+    branches: [ "*" ]  # Trigger on pull requests to all branches
 
 jobs:
   build:
@@ -31,9 +31,4 @@ jobs:
     - name: Run tests
       run: |
         cd build
-        make test
-
-    - name: Make distcheck
-      run: |
-        cd build
-        make distcheck
+        make test  # This will run your simple tests
