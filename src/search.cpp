@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <sstream>
 
 // Retrieve the set of document IDs for a keyword
 std::set<int> getDocumentsForKeyword(const std::string &keyword) {
@@ -36,11 +37,35 @@ std::set<int> booleanNot(const std::set<int> &allDocs, const std::set<int> &setT
 
 // Boolean search query: handle "AND", "OR", "NOT" operations
 std::set<int> booleanSearch(const std::string &query, const std::vector<std::string> &allDocs) {
-    // Example: Simple "AND" search between two keywords
-    std::set<int> results1 = getDocumentsForKeyword("keyword1");
-    std::set<int> results2 = getDocumentsForKeyword("keyword2");
-    
-    // Perform AND operation
-    std::set<int> result = booleanAnd(results1, results2);
+    std::istringstream stream(query);
+    std::string token;
+    std::set<int> result;
+    std::set<int> allDocIDs;
+    for (int i = 0; i < allDocs.size(); ++i) {
+        allDocIDs.insert(i);
+    }
+
+    std::set<int> currentSet;
+    std::string currentOp = "AND";
+
+    while (stream >> token) {
+        if (token == "AND" || token == "OR" || token == "NOT") {
+            currentOp = token;
+        } else {
+            std::set<int> keywordSet = getDocumentsForKeyword(token);
+            if (currentOp == "AND") {
+                if (result.empty()) {
+                    result = keywordSet;
+                } else {
+                    result = booleanAnd(result, keywordSet);
+                }
+            } else if (currentOp == "OR") {
+                result = booleanOr(result, keywordSet);
+            } else if (currentOp == "NOT") {
+                result = booleanNot(result, keywordSet);
+            }
+        }
+    }
+
     return result;
 }

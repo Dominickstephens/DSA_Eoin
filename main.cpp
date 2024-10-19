@@ -10,7 +10,6 @@ int main() {
     std::vector<std::string> documents;
     std::string booksFolder = "books/";
 
-
     for (const auto &entry : std::filesystem::directory_iterator(booksFolder)) {
         documents.push_back(entry.path().string());
     }
@@ -23,13 +22,13 @@ int main() {
     std::cout << "Enter search query: ";
     std::getline(std::cin, query);
 
-    // Step 4: Perform Boolean search
-    std::set<int> searchResults = booleanSearch(query, documents);
+    // Perform the search
+    std::set<int> results = booleanSearch(query, documents);
 
-    // Step 5: Display search results
+    // Display the results
     std::cout << "Search Results:\n";
-    for (int docID : searchResults) {
-        std::cout << "Document ID: " << docID << "\n";
+    for (int docID : results) {
+        std::cout << "Document ID: " << docID << " - " << documents[docID] << "\n";
     }
 
     return 0;
