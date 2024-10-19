@@ -15,7 +15,7 @@ vectorClass<T>::~vectorClass() {
 }
 
 template <typename T>
-void vectorClass<T>::push(T data) {
+void vectorClass<T>::push(T item) {
     if (current == capacity) {
         T* temp = new T[2 * capacity];
         for (int i = 0; i < capacity; i++) {
@@ -25,7 +25,7 @@ void vectorClass<T>::push(T data) {
         capacity *= 2;
         arr = temp;
     }
-    arr[current] = data;
+    arr[current] = item;
     current++;
 }
 
