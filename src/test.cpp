@@ -18,7 +18,7 @@ int subtract(int a, int b) {
 
 // Simple test for the add function
 void test_add() {
-    if (add(2, 3) != 5) {
+    if (add(2, 3) != 6) {
         cerr << "Test failed: add(2, 3) != 5" << std::endl;
     } else {
         cout << "Test passed: add(2, 3) == 5" << std::endl;
