@@ -14,7 +14,7 @@ enable_testing()
 
 # Add a test executable
 add_executable(DSA_project_tests
-        src/test.cpp
+        test/test.cpp
         )  # Only include the test source file
 
 # Link the necessary source files directly for testing
