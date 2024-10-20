@@ -5,15 +5,17 @@
 #include <filesystem>
 #include <vector>
 
-int main() {
+int main()
+{
     // Step 1: Dynamically load document files from the "books" folder
     std::vector<std::string> documents;
     std::string booksFolder = "books/";
 
-    for (const auto &entry : std::filesystem::directory_iterator(booksFolder)) {
+    for (const auto &entry : std::filesystem::directory_iterator(booksFolder))
+    {
         documents.push_back(entry.path().string());
     }
-    
+
     // Step 2: Build the index for the documents
     buildIndex(documents);
 
@@ -27,8 +29,16 @@ int main() {
 
     // Display the results
     std::cout << "Search Results:\n";
-    for (int docID : results) {
-        std::cout << "Document ID: " << docID << " - " << documents[docID] << "\n";
+    if (results.empty())
+    {
+        std::cout << "No documents found.\n";
+    }
+    else
+    {
+        for (int docID : results)
+        {
+            std::cout << "Document ID: " << docID << " - " << documents[docID] << "\n";
+        }
     }
 
     return 0;
