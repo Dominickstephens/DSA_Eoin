@@ -12,10 +12,10 @@
 
 
 #include "documentIndex.h"
-#include "IndexEntry.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "IndexEntry.h"
 
 using namespace std;
 

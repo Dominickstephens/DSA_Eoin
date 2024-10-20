@@ -32,8 +32,8 @@ public:
                 for (size_t i = 0; i < pair.second.size(); ++i) {
                     if (pair.second[i].filePath == value.filePath) {
                         value.frequency += pair.second[i].frequency;
-                        pair.second[i].lineNumbers.push(value.lineNumbers[0]);
-                        value.lineNumbers = pair.second[i].lineNumbers;
+                        pair.second[i].bytePositions.push(value.bytePositions[0]);
+                        value.bytePositions = pair.second[i].bytePositions;
                         pair.second[i] = value;  // Replace existing value if duplicate
                         return;
                     }
