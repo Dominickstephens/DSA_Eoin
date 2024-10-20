@@ -18,7 +18,7 @@ int subtract(int a, int b) {
 
 // Simple test for the add function
 void test_add() {
-    assert(add(2, 3) == 6);  // Test should pass
+    assert(add(2, 3) == 5);  // Test should pass
     assert(add(-1, 1) == 0); // Test should pass
 }
 
