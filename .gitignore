@@ -5,7 +5,7 @@ cmake-build-default/
 .idea/
 
 # Ignore build artifacts
-/a.exe
+/a.exge
 /CMakeCache.txt
 /cmake_install.cmake
 /build.ninja
