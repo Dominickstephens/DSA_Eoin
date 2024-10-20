@@ -1,3 +1,9 @@
+# Ignore build directories
+cmake-build-debug/
+cmake-build-default/
+
+.idea/
+
 # Ignore build artifacts
 /a.exe
 /CMakeCache.txt
