@@ -3,8 +3,8 @@
 //
 
 #include <iostream>
+#include <cassert>  // Include for assert
 
-// Include the headers needed for your tests
 using namespace std;
 
 // Example function to test
@@ -18,36 +18,20 @@ int subtract(int a, int b) {
 
 // Simple test for the add function
 void test_add() {
-    if (add(2, 3) != 6) {
-        cerr << "Test failed: add(2, 3) != 5" << std::endl;
-    } else {
-        cout << "Test passed: add(2, 3) == 5" << std::endl;
-    }
-
-    if (add(-1, 1) != 0) {
-        cerr << "Test failed: add(-1, 1) != 0" << std::endl;
-    } else {
-        cout << "Test passed: add(-1, 1) == 0" << std::endl;
-    }
+    assert(add(2, 3) == 6);  // Test should pass
+    assert(add(-1, 1) == 0); // Test should pass
 }
 
-//test subtraction function
+// Test subtraction function
 void test_subtract() {
-    if (subtract(2, 3) != -1) {
-        cerr << "Test failed: subtract(2, 3) != -1" << std::endl;
-    } else {
-        cout << "Test passed: subtract(2, 3) == -1" << std::endl;
-    }
-
-    if (subtract(-1, 1) != -2) {
-        cerr << "Test failed: subtract(-1, 1) != -2" << std::endl;
-    } else {
-        cout << "Test passed: subtract(-1, 1) == -2" << std::endl;
-    }
+    assert(subtract(2, 3) == -1); // Test should pass
+    assert(subtract(-1, 1) == -2); // Test should pass
 }
 
 int main() {
-    test_add();  // Run the tests
-    test_subtract();
-    return 0;
+    test_add();      // Run the add tests
+    test_subtract(); // Run the subtract tests
+
+    cout << "All tests passed!" << endl; // If no assert failed, this will execute
+    return 0; // Return success
 }
