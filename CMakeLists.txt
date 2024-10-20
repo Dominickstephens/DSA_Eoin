@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Add the main executable
 add_executable(DSA_project
         src/main.cpp
-        src/word_operation.cpp src/word_operation.h)
+        src/word_operation.cpp src/word_operation.h src/vectorBook.tpp src/documentIndex.h src/IndexEntry.h)
 
 # Enable testing
 enable_testing()
