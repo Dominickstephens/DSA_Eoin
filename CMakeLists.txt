@@ -14,11 +14,7 @@ enable_testing()
 
 # Add a test executable
 add_executable(DSA_project_tests
-<<<<<<< HEAD
         src/test.cpp
-=======
-        test.cpp
->>>>>>> main
         )  # Only include the test source file
 
 # Link the necessary source files directly for testing
@@ -27,8 +23,4 @@ target_sources(DSA_project_tests
         )
 
 # Register the test executable
-<<<<<<< HEAD
 add_test(NAME DSAProjectTests COMMAND DSA_project_tests)
-=======
-add_test(NAME DSAProjectTests COMMAND DSA_project_tests)
->>>>>>> main
