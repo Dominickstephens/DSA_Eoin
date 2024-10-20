@@ -56,13 +56,13 @@ int main()
     const std::string pink = "\033[38;5;218m";
 
     // Welcome banner
-    printColored("  Welcome to the JellyCats Library!\n", yellow);
-    printColored("====================================\n", yellow);
+    printColored("Welcome to the JellyCats Library!\n", yellow);
+    printColored("=============================================\n", yellow);
 
     // Print ASCII art
     printAsciiArtColored("cat_art.txt", pink);
 
-    printColored("====================================\n", yellow);
+    printColored("=============================================\n", yellow);
 
     // Step 1: Dynamically load document files from the "books" folder
     std::vector<std::string> documents;
