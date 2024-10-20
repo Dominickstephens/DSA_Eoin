@@ -3,3 +3,37 @@ cmake-build-debug/
 cmake-build-default/
 
 .idea/
+
+# Ignore build artifacts
+/a.exe
+/CMakeCache.txt
+/cmake_install.cmake
+/build.ninja
+/rules.ninja
+/ninja_log
+
+# Ignore CMake directories
+/CMakeFiles/
+/CMakeCCompiler.cmake
+/CMakeCXXCompiler.cmake
+/CMakeRCCompiler.cmake
+/CMakeDetermineCompilerABI_C.bin
+/CMakeDetermineCompilerABI_CXX.bin
+/CMakeSystem.cmake
+/CMakeOutput.log
+/LastTest.log
+/cmakeFiles-v1-*.json
+/codemodel-v2-*.json
+/toolchains-v1-*.json
+/cache-v2-*.json
+/index-*.json
+
+# Ignore CLion project-specific files
+/misc.xml
+/modules.xml
+/clion-Debug-log.txt
+/clion-environment.txt
+
+# Ignore object files
+*.obj
+*.o
