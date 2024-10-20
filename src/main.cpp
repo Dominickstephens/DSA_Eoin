@@ -10,8 +10,8 @@ using namespace std;
 
 int main() {
 
-    documentIndex<std::string, vectorClass<IndexEntry>> index;
-    std::string bookPath = "../books";
+    documentIndex<string, vectorClass<IndexEntry>> index;
+    string bookPath = "../books";
 
     // Create DocumentIndexer and perform indexing
     DocumentIndexer indexer(bookPath);
