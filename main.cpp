@@ -72,6 +72,14 @@ void printSuggestions(const std::vector<std::string>& suggestions, const std::st
     std::cout.flush();  // Ensure the output is updated immediately
 }
 
+// Function to get the last word from input
+std::string getLastWord(const std::string& input) {
+    std::istringstream iss(input);
+    std::string lastWord;
+    while (iss >> lastWord) {}  // Extract last word
+    return lastWord;
+}
+
 int main() {
     // Create a Trie for characters (strings of type char)
     Trie<char> trie;
@@ -108,8 +116,9 @@ int main() {
                     input += c;  // Append the character to input
                 }
 
-                // Find and display the suggestions from the Trie
-                std::string lowerPrefix = toLowerCase(input);
+                // Get the last word for suggestions
+                std::string lastWord = getLastWord(input);
+                std::string lowerPrefix = toLowerCase(lastWord);
                 std::vector<std::string> suggestions = trie.autocomplete(lowerPrefix);
 
                 // Print the input and suggestions together
