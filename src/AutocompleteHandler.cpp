@@ -7,6 +7,11 @@
 #include <conio.h>
 #include <windows.h>
 
+// Prevent potential macro conflicts
+#ifdef min
+#undef min
+#endif
+
 namespace fs = std::filesystem;
 
 // Helper function to convert a string to lowercase
