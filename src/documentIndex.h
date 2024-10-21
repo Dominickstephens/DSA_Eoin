@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include <vector>
-#include <list>
 #include <utility>
 #include <algorithm>
 #include <functional>
 #include "IndexEntry.h"
 #include <cmath>
+#include "../include/pairImp.h"
 
 using namespace std;
 
@@ -114,16 +114,16 @@ public:
         }
     }
 
-    vector<list<pair<KeyType, ValueType>>> table;
+    vector<vector<Pair<KeyType, ValueType>>> table;
 private:
     float loadFactor = 0.75;
     const int PRIME_CONST = 31;
 
     // Change the type of the loop variable to size_t
-    int stringHash (string key) {
-        int hashCode = 0;
-        for (size_t i = 0; i < key.length(); i++) {  // Change 'int' to 'size_t'
-            hashCode += key[i] * pow(PRIME_CONST, i);
+    size_t stringHash(const string& key) {
+        size_t hashCode = 0;
+        for (char i : key) {
+            hashCode = hashCode * PRIME_CONST + i;
         }
         return hashCode;
     }
@@ -134,7 +134,7 @@ private:
     // Resize and rehash the table when it becomes too full
     void rehash() {
         size_t newSize = table.size() * 2;
-        vector<list<pair<KeyType, ValueType>>> newTable(newSize);
+        vector<vector<Pair<KeyType, ValueType>>> newTable(newSize);
 
         for (const auto& bucket : table) {
             for (const auto& pair : bucket) {
