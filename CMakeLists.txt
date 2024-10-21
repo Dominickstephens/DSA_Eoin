@@ -3,10 +3,20 @@ project(DSA_project)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Add the main executable
+# Add executables
 add_executable(DSA_project
-        src/main.cpp
-        src/vectorBook.tpp src/serialization.h src/documentIndex.h src/IndexEntry.h src/DocumentIndexer.cpp src/DocumentIndexer.h src/IndexEntry.cpp
+        main.cpp
+        include/TrieNode.h
+        include/Trie.h
+        include/AutocompleteHandler.h
+        src/AutocompleteHandler.cpp
+        src/vectorBook.tpp 
+        src/serialization.h
+        src/documentIndex.h
+        src/IndexEntry.h
+        src/DocumentIndexer.cpp 
+        src/DocumentIndexer.h 
+        src/IndexEntry.cpp
         )
 
 # Enable testing

@@ -2,22 +2,18 @@
 cmake-build-debug/
 cmake-build-default/
 
-.idea/
-
 # Ignore build artifacts
-<<<<<<< HEAD
-/a.exge
-=======
 /a.exe
->>>>>>> main
+/autocomplete.exe
 /CMakeCache.txt
 /cmake_install.cmake
 /build.ninja
 /rules.ninja
 /ninja_log
 
-# Ignore CMake directories
+# Ignore CMake directories and files
 /CMakeFiles/
+CMakeLists.txt.user
 /CMakeCCompiler.cmake
 /CMakeCXXCompiler.cmake
 /CMakeRCCompiler.cmake
@@ -41,3 +37,8 @@ cmake-build-default/
 # Ignore object files
 *.obj
 *.o
+
+# Ignore IDE settings
+.idea/
+*.iml
+*.xml
