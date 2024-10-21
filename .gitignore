@@ -46,4 +46,6 @@ CMakeLists.txt.user
 
 .idea/DSA_project.iml
 cmake-build-debug/.ninja_deps
+index.csv
+main.exe
 
