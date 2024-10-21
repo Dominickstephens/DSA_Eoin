@@ -8,6 +8,8 @@ add_executable(DSA_project
         main.cpp
         include/TrieNode.h
         include/Trie.h
+        include/AutocompleteHandler.h
+        src/AutocompleteHandler.cpp
         src/vectorBook.tpp 
         src/serialization.h 
         src/documentIndex.h src/IndexEntry.h 
