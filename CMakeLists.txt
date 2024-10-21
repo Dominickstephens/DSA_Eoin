@@ -3,20 +3,19 @@ project(DSA_project)
 
 set(CMAKE_CXX_STANDARD 17)
 
-
-# Add executables
+# Add the main project executable
 add_executable(DSA_project
         main.cpp
         include/TrieNode.h
         include/Trie.h
         include/AutocompleteHandler.h
         src/AutocompleteHandler.cpp
-        src/vectorBook.tpp 
+        src/vectorBook.tpp
         src/serialization.h
         src/documentIndex.h
         src/IndexEntry.h
-        src/DocumentIndexer.cpp 
-        src/DocumentIndexer.h 
+        src/DocumentIndexer.cpp
+        src/DocumentIndexer.h
         src/IndexEntry.cpp
         src/indexing.cpp
         include/indexing.h
@@ -24,8 +23,10 @@ add_executable(DSA_project
         include/search.h
         src/utils.cpp
         include/utils.h
-        )
+)
 
+# Link any additional libraries if necessary
+target_link_libraries(DSA_project)
 
 # Download and add GoogleTest
 add_subdirectory(external/googletest)
@@ -36,18 +37,16 @@ enable_testing()
 # Add a test executable
 add_executable(DSA_project_tests
         test/test.cpp
-        )  # Only include the test source file
+)
 
-# Link the necessary source files directly for testing
-target_sources(DSA_project_tests
-        PRIVATE
-        )
+# Link the necessary libraries for testing (if any, e.g., Google Test)
+target_link_libraries(DSA_project_tests gtest gtest_main)
 
 # Register the test executable
 add_test(NAME DSAProjectTests COMMAND DSA_project_tests)
 
-# Link any additional libraries if necessary
-target_link_libraries(DSA_project)
+# Ensure the main project executable and tests are built
+add_dependencies(DSA_project_tests DSA_project)
 
 # Test executable for indexing tests
 add_executable(test_indexing
