@@ -3,12 +3,14 @@
 #include <vector>
 #include <windows.h>   // For Windows API
 #include "Trie.h"
+#include "../src/IndexEntry.h"
+#include "../src/documentIndex.h"
 
 // Converts a string to lowercase for case-insensitive matching
 std::string toLowerCase(const std::string& str);
 
 // Loads book titles from a directory and inserts them into the Trie
-void loadBookTitles(Trie<char>& trie, const std::string& directory);
+void loadBookTitles(Trie<char>& trie, const documentIndex<std::string, vectorClass<IndexEntry>>& index);
 
 // Sets the cursor position in the console
 void setCursorPosition(int x, int y);

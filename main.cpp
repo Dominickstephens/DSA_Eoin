@@ -85,7 +85,7 @@ int main()
     index2.printFirstPair();
 
     // Load book titles into the Trie for autocomplete suggestions
-    loadBookTitles(trie, bookDirectory);
+    loadBookTitles(trie, index2);
 
     // Step 3: Process a search query with autocomplete
     std::string query;
