@@ -41,8 +41,10 @@ std::set<int> booleanSearch(const std::string &query, const std::vector<std::str
     std::string token;
     std::set<int> result;
     std::set<int> allDocIDs;
-    for (int i = 0; i < allDocs.size(); ++i) {
-        allDocIDs.insert(i);
+
+    // Change to size_t
+    for (size_t i = 0; i < allDocs.size(); ++i) {
+        allDocIDs.insert(static_cast<int>(i)); // Ensure we store int in the set
     }
 
     std::set<int> currentSet;
