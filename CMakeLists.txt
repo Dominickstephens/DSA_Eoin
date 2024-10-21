@@ -11,8 +11,9 @@ add_executable(DSA_project
         include/AutocompleteHandler.h
         src/AutocompleteHandler.cpp
         src/vectorBook.tpp 
-        src/serialization.h 
-        src/documentIndex.h src/IndexEntry.h 
+        src/serialization.h
+        src/documentIndex.h
+        src/IndexEntry.h
         src/DocumentIndexer.cpp 
         src/DocumentIndexer.h 
         src/IndexEntry.cpp
