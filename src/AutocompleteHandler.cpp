@@ -1,4 +1,7 @@
 #include "../include/AutocompleteHandler.h"
+#include "vectorBook.h"
+#include "IndexEntry.h"
+#include "documentIndex.h"
 #include <iostream>
 #include <filesystem>
 #include <fstream>
@@ -21,22 +24,11 @@ std::string toLowerCase(const std::string& str) {
     return lower;
 }
 
-// Function to load book titles and insert each word into the Trie
-void loadBookTitles(Trie<char>& trie, const std::string& directory) {
-    for (const auto& entry : fs::directory_iterator(directory)) {
-        if (entry.is_regular_file()) {
-            std::string filename = entry.path().filename().string();
-            std::string lowerTitle = toLowerCase(filename);  // Convert to lowercase for case-insensitivity
-
-            // Insert the full title
-            trie.insert(lowerTitle);
-
-            // Split the title into words and insert each word
-            std::istringstream iss(lowerTitle);
-            std::string word;
-            while (iss >> word) {
-                trie.insert(word);
-            }
+// Function to load words from a hashmap and insert them into the Trie
+void loadBookTitles(Trie<char>& trie, const documentIndex<string, vectorClass<IndexEntry>>& index) {
+    for (const auto& bucket : index.table) {
+        for (const auto& pair : bucket) {
+            trie.insert(pair.first);  // Insert the key (word) into the Trie
         }
     }
 }
