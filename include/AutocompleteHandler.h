@@ -32,4 +32,4 @@ std::string replaceLastWord(const std::string& input, const std::string& suggest
 void printUpdatedInput(const std::string& input);
 
 // Handles user input and provides autocomplete functionality
-void handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand);
+std::string handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand);

@@ -6,7 +6,6 @@
 #include <vector>
 #include <fstream>
 #include <string>
-#include <fstream>
 #include <regex>
 #include "include/Trie.h"
 #include "include/AutocompleteHandler.h"
@@ -70,8 +69,6 @@ int main()
     // Step 2: Build the index for the documents
     buildIndex(documents);
 
-    // ==============================================
-
     const std::string bookDirectory = "books";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
@@ -81,33 +78,33 @@ int main()
     indexer.performIndexing(index);
 
     Trie<char> trie;
-    
+
     serialize(index, "index.csv");
     documentIndex<string, vectorClass<IndexEntry>> index2;
     deserialize(index2, "index.csv");
     index2.printFirstPair();
 
+    // Load book titles into the Trie for autocomplete suggestions
     loadBookTitles(trie, bookDirectory);
-    handleAutocompleteInput(trie, "exit");
 
-    // ==============================================
-
-    // Step 3: Process a search query
+    // Step 3: Process a search query with autocomplete
     std::string query;
     while (true)
     {
-
         printColored("(Type 'exit' to quit)\n", blue);
         printColored("Enter search query: ", blue);
-        std::getline(std::cin, query);
 
-        if (query == "exit")
+        // Handle autocomplete functionality
+        std::string autocompleteResult = handleAutocompleteInput(trie, "exit");
+
+        // If the user types 'exit', break the loop
+        if (autocompleteResult == "exit")
         {
             break;
         }
 
-        // Perform the search
-        std::set<int> results = booleanSearch(query, documents);
+        // Use the selected/entered term from autocomplete to perform the search
+        std::set<int> results = booleanSearch(autocompleteResult, documents);
 
         // Display the results
         printColored("Search Results:\n", pink);
@@ -124,6 +121,7 @@ int main()
             }
         }
     }
+
     printColored("Goodbye!\n", yellow);
 
     return 0;
