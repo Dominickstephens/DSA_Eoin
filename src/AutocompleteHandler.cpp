@@ -118,7 +118,7 @@ void printUpdatedInput(const std::string& input) {
 }
 
 // Handles the autocomplete functionality and user input
-void handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand) {
+std::string handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand) {
     HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
     DWORD mode;
     GetConsoleMode(hInput, &mode);
@@ -127,12 +127,12 @@ void handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand) {
     std::string input;
     char c;
     DWORD charsRead;
-    std::vector<std::string>::size_type selectedIndex = 0;  // Change int to size_type
+    std::vector<std::string>::size_type selectedIndex = 0;
+    std::vector<std::string> suggestions;  // Declare once
 
     while (true) {
         input.clear();
         selectedIndex = 0;
-        std::vector<std::string> suggestions;  // Declare suggestions here
 
         while (true) {
             if (ReadConsoleA(hInput, &c, 1, &charsRead, NULL) && charsRead == 1) {
@@ -141,36 +141,33 @@ void handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand) {
                         input.pop_back();
                     }
                     selectedIndex = 0;
-                } else if (c == '\r') {
+                } else if (c == '\r') {  // When Enter is pressed
                     printUpdatedInput(input);
                     std::cout << std::endl;
-                    break;
+                    return input;  // Return the input to submit the search query
                 } else if (c == '\t') {
                     if (!suggestions.empty() && selectedIndex < suggestions.size()) {
                         input = replaceLastWord(input, suggestions[selectedIndex]);
                     }
                     printUpdatedInput(input);
                 } else if (c == 'n') {
-                    if (selectedIndex < suggestions.size() - 1) {
-                        selectedIndex++;  // Change to prevent overflow
+                    if (!suggestions.empty()) {
+                        selectedIndex = (selectedIndex + 1) % suggestions.size();  // Cycle forward
                     }
                 } else if (c == 'p') {
-                    if (selectedIndex > 0) {
-                        selectedIndex--;  // Change to prevent underflow
+                    if (!suggestions.empty()) {
+                        selectedIndex = (selectedIndex == 0) ? suggestions.size() - 1 : selectedIndex - 1;  // Cycle backward
                     }
                 } else {
                     input += c;
                 }
 
-                std::string lastWord = toLowerCase(getLastWord(input));
-                suggestions = trie.autocomplete(lastWord);  // Update suggestions here
-
-                if (suggestions.empty()) {
+                if (input.empty()) {
+                    suggestions.clear();
                     selectedIndex = 0;
                 } else {
-                    if (selectedIndex >= suggestions.size()) {
-                        selectedIndex = 0;
-                    }
+                    std::string lastWord = toLowerCase(getLastWord(input));
+                    suggestions = trie.autocomplete(lastWord);  // Update suggestions
                 }
 
                 printSuggestions(suggestions, input, selectedIndex);
@@ -182,5 +179,7 @@ void handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand) {
         }
     }
 
-    SetConsoleMode(hInput, mode);
+    SetConsoleMode(hInput, mode);  // Restore original console mode
+    setTextColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);  // Reset text color
+    return input;
 }

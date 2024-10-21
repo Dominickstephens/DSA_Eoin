@@ -17,7 +17,19 @@ add_executable(DSA_project
         src/DocumentIndexer.cpp
         src/DocumentIndexer.h
         src/IndexEntry.cpp
-        )
+        src/indexing.cpp
+        include/indexing.h
+        src/search.cpp
+        include/search.h
+        src/utils.cpp
+        include/utils.h
+)
+
+# Link any additional libraries if necessary
+target_link_libraries(DSA_project)
+
+# Download and add GoogleTest
+add_subdirectory(external/googletest)
 
 # Enable testing
 enable_testing()
@@ -25,15 +37,47 @@ enable_testing()
 # Add a test executable
 add_executable(DSA_project_tests
         test/test.cpp
-        )
+)
 
 # Link the necessary libraries for testing (if any, e.g., Google Test)
-# If you're using Google Test, you would add:
-# target_link_libraries(DSA_project_tests gtest gtest_main)
+target_link_libraries(DSA_project_tests gtest gtest_main)
 
 # Register the test executable
 add_test(NAME DSAProjectTests COMMAND DSA_project_tests)
 
 # Ensure the main project executable and tests are built
-# This line ensures that tests are built after the main project
 add_dependencies(DSA_project_tests DSA_project)
+
+# Test executable for indexing tests
+add_executable(test_indexing
+        tests/test_indexing.cpp
+        src/indexing.cpp
+        include/indexing.h
+        src/search.cpp
+        include/search.h
+        src/utils.cpp
+        include/utils.h
+)
+
+# Link the test executable with GoogleTest
+target_link_libraries(test_indexing gtest gtest_main)
+
+# Register the test
+add_test(NAME test_indexing COMMAND test_indexing)
+
+# Test executable for search tests
+add_executable(test_search
+        tests/test_search.cpp
+        src/indexing.cpp
+        include/indexing.h
+        src/search.cpp
+        include/search.h
+        src/utils.cpp
+        include/utils.h
+)
+
+# Link the test executable with GoogleTest
+target_link_libraries(test_search gtest gtest_main)
+
+# Register the test
+add_test(NAME test_search COMMAND test_search)

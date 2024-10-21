@@ -10,7 +10,6 @@
 #include "IndexEntry.h"
 #include <cmath>
 
-
 using namespace std;
 
 template <typename KeyType, typename ValueType>
@@ -18,7 +17,6 @@ class documentIndex {
 public:
     // Constructor
     explicit documentIndex(size_t size = 10) : table(size), numElements(0) {}
-
 
     // Insert a key-value pair
     void insert(const KeyType& key, IndexEntry& value) {
@@ -86,9 +84,6 @@ public:
                     cout << endl;
                 }
             }
-//            else {
-//                cout << "Empty Bucket" << endl; // Optional: output for empty buckets
-//            }
         }
     }
 
@@ -109,7 +104,6 @@ public:
         cout << "No elements in the document index." << endl;
     }
 
-
     // Remove a specific value from all key-value pairs
     void removeValue(const typename ValueType::value_type& value) {
         for (auto& bucket : table) {
@@ -125,10 +119,10 @@ private:
     float loadFactor = 0.75;
     const int PRIME_CONST = 31;
 
-
+    // Change the type of the loop variable to size_t
     int stringHash (string key) {
         int hashCode = 0;
-        for (int i = 0; i < key.length(); i++) {
+        for (size_t i = 0; i < key.length(); i++) {  // Change 'int' to 'size_t'
             hashCode += key[i] * pow(PRIME_CONST, i);
         }
         return hashCode;
