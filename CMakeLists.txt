@@ -7,14 +7,21 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(DSA_project
         main.cpp
         include/TrieNode.h
-        include/Trie.h)
+        include/Trie.h
+        src/vectorBook.tpp 
+        src/serialization.h 
+        src/documentIndex.h src/IndexEntry.h 
+        src/DocumentIndexer.cpp 
+        src/DocumentIndexer.h 
+        src/IndexEntry.cpp
+        )
 
 # Enable testing
 enable_testing()
 
 # Add a test executable
 add_executable(DSA_project_tests
-        test.cpp
+        test/test.cpp
         )  # Only include the test source file
 
 # Link the necessary source files directly for testing

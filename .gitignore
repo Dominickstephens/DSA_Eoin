@@ -1,4 +1,11 @@
+# Ignore build directories
+cmake-build-debug/
+cmake-build-default/
+
+.idea/
+
 # Ignore build artifacts
+
 /a.exe
 /autocomplete.exe
 /CMakeCache.txt
