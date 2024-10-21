@@ -6,7 +6,8 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -Iinclude
 TARGET = main.exe
 
 # Source files
-SRCS = main.cpp src/AutocompleteHandler.cpp src/DocumentIndexer.cpp src/IndexEntry.cpp
+SRCS = main.cpp src/AutocompleteHandler.cpp src/DocumentIndexer.cpp src/IndexEntry.cpp src/IndexEntry.cpp src/indexing.cpp src/search.cpp src/utils.cpp
+
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)

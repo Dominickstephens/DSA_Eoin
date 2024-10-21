@@ -70,6 +70,28 @@ int main()
     // Step 2: Build the index for the documents
     buildIndex(documents);
 
+    // ==============================================
+
+    const std::string bookDirectory = "books";
+
+    documentIndex<string, vectorClass<IndexEntry>> index;
+
+    // Create DocumentIndexer and perform indexing
+    DocumentIndexer indexer(bookDirectory);
+    indexer.performIndexing(index);
+
+    Trie<char> trie;
+    
+    serialize(index, "index.csv");
+    documentIndex<string, vectorClass<IndexEntry>> index2;
+    deserialize(index2, "index.csv");
+    index2.printFirstPair();
+
+    loadBookTitles(trie, bookDirectory);
+    handleAutocompleteInput(trie, "exit");
+
+    // ==============================================
+
     // Step 3: Process a search query
     std::string query;
     while (true)
@@ -103,26 +125,6 @@ int main()
         }
     }
     printColored("Goodbye!\n", yellow);
-
-
-        Trie<char> trie;
-
-    const std::string bookDirectory = "books";
-
-    documentIndex<string, vectorClass<IndexEntry>> index;
-
-    // Create DocumentIndexer and perform indexing
-    DocumentIndexer indexer(bookDirectory);
-    indexer.performIndexing(index);
-
-
-    serialize(index, "index.csv");
-    documentIndex<string, vectorClass<IndexEntry>> index2;
-    deserialize(index2, "index.csv");
-    index2.printFirstPair();
-
-    loadBookTitles(trie, bookDirectory);
-    handleAutocompleteInput(trie, "exit");
 
     return 0;
 }
