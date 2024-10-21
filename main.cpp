@@ -96,6 +96,24 @@ std::string replaceLastWord(const std::string& input, const std::string& suggest
     return result;
 }
 
+// Function to print the updated input
+void printUpdatedInput(const std::string& input) {
+    // Clear the current line and print the updated input
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+    setCursorPosition(0, csbi.dwCursorPosition.Y);
+    std::cout << std::string(csbi.dwSize.X, ' ');  // Clear the current line
+    setCursorPosition(0, csbi.dwCursorPosition.Y);  // Move the cursor back to the start
+
+    // Print the input
+    setTextColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);  // White for typed input
+    std::cout << input;
+
+    // Reset the color
+    setTextColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    std::cout.flush();  // Ensure the output is updated immediately
+}
+
 int main() {
     // Create a Trie for characters (strings of type char)
     Trie<char> trie;
@@ -128,13 +146,18 @@ int main() {
                         input.pop_back();
                     }
                     selectedIndex = 0;  // Reset selection on backspace
-                } else if (c == '\r') {  // Handle Enter key (finish word or select suggestion)
+                } else if (c == '\r') {  // Handle Enter key (finish word)
+                    // Move to next line after printing the input
+                    printUpdatedInput(input);
+                    std::cout << std::endl;
+                    break;
+                } else if (c == '\t') {  // Handle Tab key (accept suggestion)
                     std::vector<std::string> suggestions = trie.autocomplete(getLastWord(input));
                     if (!suggestions.empty() && selectedIndex < suggestions.size()) {
                         input = replaceLastWord(input, suggestions[selectedIndex]);  // Replace with selected suggestion
                     }
-                    std::cout << std::endl;
-                    break;
+                    printUpdatedInput(input); // Print updated input
+                    // Keep the cursor on the same line
                 } else if (c == 'n') {  // Next suggestion (using 'n' key)
                     // Don't add 'n' to input
                     selectedIndex++;
