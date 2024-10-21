@@ -55,7 +55,7 @@ void setTextColorPink() {
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
 
-// Print input and the suggestions
+// Print input and a maximum of 3 suggestions
 void printSuggestions(const std::vector<std::string>& suggestions, const std::string& input, int selectedIndex) {
     // Clear the current line by moving the cursor back and clearing to the end
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -68,9 +68,10 @@ void printSuggestions(const std::vector<std::string>& suggestions, const std::st
     setTextColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);  // White for typed input
     std::cout << input;
 
-    // Print suggestions below the input
+    // Print suggestions below the input, limited to 3 suggestions
     setTextColor(FOREGROUND_INTENSITY);  // Gray for suggestions
-    for (size_t i = 0; i < suggestions.size(); ++i) {
+    size_t limit = std::min(suggestions.size(), static_cast<size_t>(3));  // Max 3 suggestions
+    for (size_t i = 0; i < limit; ++i) {
         if (i == selectedIndex) {
             setTextColorPink();  // Set the color to magenta (closest to pink)
         }
