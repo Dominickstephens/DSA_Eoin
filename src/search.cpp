@@ -1,5 +1,6 @@
 #include "../include/search.h"
-#include "../include/indexing.h"  // To access the inverted index
+#include "IndexEntry.h"
+#include "documentIndex.h"
 #include <algorithm>
 #include <set>
 #include <string>
@@ -7,11 +8,20 @@
 #include <sstream>
 
 // Retrieve the set of document IDs for a keyword
-std::set<int> getDocumentsForKeyword(const std::string &keyword) {
-    if (invertedIndex.find(keyword) != invertedIndex.end()) {
-        return std::set<int>(invertedIndex[keyword].begin(), invertedIndex[keyword].end());
+std::set<IndexEntry> getDocumentsForKeyword(const std::string& keyword, documentIndex<std::string, vectorClass<IndexEntry>>& index) {
+    std::set<IndexEntry> entriesSet;
+
+    // Find the keyword in the document index
+    vectorClass<IndexEntry>* entries = index.find(keyword);
+
+    if (entries != nullptr) {
+        // Insert all IndexEntry objects into the set
+        for (const auto& entry : *entries) {
+            entriesSet.insert(entry);  // Assuming IndexEntry has an overloaded '<' operator for std::set
+        }
     }
-    return {};
+
+    return entriesSet;  // Return the set of IndexEntry objects
 }
 
 // Perform AND operation between two sets of document IDs
@@ -36,16 +46,16 @@ std::set<int> booleanNot(const std::set<int> &allDocs, const std::set<int> &setT
 }
 
 // Boolean search query: handle "AND", "OR", "NOT" operations
-std::set<int> booleanSearch(const std::string &query, const std::vector<std::string> &allDocs) {
+std::set<int> booleanSearch(const std::string &query, documentIndex<std::string, vectorClass<IndexEntry>>& index) {
     std::istringstream stream(query);
     std::string token;
     std::set<int> result;
     std::set<int> allDocIDs;
 
     // Change to size_t
-    for (size_t i = 0; i < allDocs.size(); ++i) {
-        allDocIDs.insert(static_cast<int>(i)); // Ensure we store int in the set
-    }
+//    for (size_t i = 0; i < index.size(); ++i) {
+//        allDocIDs.insert(static_cast<int>(i)); // Ensure we store int in the set
+//    }
 
     std::set<int> currentSet;
     std::string currentOp = "AND";
@@ -54,7 +64,7 @@ std::set<int> booleanSearch(const std::string &query, const std::vector<std::str
         if (token == "AND" || token == "OR" || token == "NOT") {
             currentOp = token;
         } else {
-            std::set<int> keywordSet = getDocumentsForKeyword(token);
+            std::set<IndexEntry> keywordSet = getDocumentsForKeyword(token, index);
             if (currentOp == "AND") {
                 if (result.empty()) {
                     result = keywordSet;

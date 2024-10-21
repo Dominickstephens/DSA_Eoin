@@ -53,23 +53,23 @@ int main()
     printColored("=============================================\n", yellow);
 
     // Print ASCII art
-    printAsciiArtColored("cat_art.txt", pink);
+    printAsciiArtColored("C:\\Users\\Dominick\\CLionProjects\\DSA_project\\cat_art.txt", pink);
 
     printColored("=============================================\n", yellow);
 
     // Step 1: Dynamically load document files from the "books" folder
     std::vector<std::string> documents;
-    std::string booksFolder = "books/";
+    std::string booksFolder = R"(C:\Users\Dominick\CLionProjects\DSA_project\books)";
 
-    for (const auto &entry : std::filesystem::directory_iterator(booksFolder))
-    {
-        documents.push_back(entry.path().string());
-    }
+//    for (const auto &entry : std::filesystem::directory_iterator(booksFolder))
+//    {
+//        documents.push_back(entry.path().string());
+//    }
 
     // Step 2: Build the index for the documents
-    buildIndex(documents);
+//    buildIndex(documents);
 
-    const std::string bookDirectory = "books";
+    const std::string bookDirectory = R"(C:\Users\Dominick\CLionProjects\DSA_project\books)";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
 

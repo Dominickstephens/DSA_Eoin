@@ -29,7 +29,7 @@ add_executable(DSA_project
 target_link_libraries(DSA_project)
 
 # Download and add GoogleTest
-add_subdirectory(external/googletest)
+#add_subdirectory(external/googletest)
 
 # Enable testing
 enable_testing()

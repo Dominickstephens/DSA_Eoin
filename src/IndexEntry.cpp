@@ -16,6 +16,17 @@ ostream& operator<<(ostream& os, const IndexEntry& entry) {
     return os;
 }
 
+bool operator<(const IndexEntry& lhs, const IndexEntry& rhs) {
+
+    // If filePath is the same, compare by frequency
+    if (lhs.frequency != rhs.frequency) {
+        return lhs.frequency < rhs.frequency;
+    }
+
+    // You can add additional comparisons if needed (e.g., fileName or bytePositions)
+    return lhs.fileName < rhs.fileName;
+}
+
 // Function to parse a serialized string into an IndexEntry
 IndexEntry parseIndexEntry(const string& str) {
     istringstream ss(str);

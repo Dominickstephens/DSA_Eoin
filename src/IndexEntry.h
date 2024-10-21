@@ -19,6 +19,7 @@ struct IndexEntry {
 
 // Declare the operator<< here, but define it in the .cpp file
 std::ostream& operator<<(std::ostream& os, const IndexEntry& entry);
+bool operator<(const IndexEntry& lhs, const IndexEntry& rhs);
 
 // Declare the parseIndexEntry function
 IndexEntry parseIndexEntry(const std::string& str);

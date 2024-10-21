@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <conio.h>
 #include <windows.h>
+#undef byte
 
 // Prevent potential macro conflicts
 #ifdef min
