@@ -79,7 +79,14 @@ int main()
 
     Trie<char> trie;
 
-    serialize(index, "index.csv");
+    std::string filename = "index.csv";
+
+    if (!std::filesystem::exists(filename)) {
+        serialize(index, filename); // Call serialize only if the file does not exist
+        cout << "File does not exist. Serialization performed." << endl;
+    } else {
+        cout << "File already exists. Serialization skipped." << endl;
+    }
     documentIndex<string, vectorClass<IndexEntry>> index2;
     deserialize(index2, "index.csv");
     index2.printFirstPair();
