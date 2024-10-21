@@ -73,17 +73,15 @@ int main()
 
     documentIndex<string, vectorClass<IndexEntry>> index;
 
-    // Create DocumentIndexer and perform indexing
-    DocumentIndexer indexer(bookDirectory);
-    indexer.performIndexing(index);
-
     Trie<char> trie;
 
     std::string filename = "index.csv";
 
     if (!std::filesystem::exists(filename)) {
-        serialize(index, filename); // Call serialize only if the file does not exist
         cout << "File does not exist. Serialization performed." << endl;
+        DocumentIndexer indexer(bookDirectory);
+        indexer.performIndexing(index);
+        serialize(index, filename); // Call serialize only if the file does not exist
     } else {
         cout << "File already exists. Serialization skipped." << endl;
     }
