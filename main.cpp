@@ -6,8 +6,6 @@
 #include <vector>
 #include <fstream>
 #include <string>
-#include <thread>
-#include <chrono>
 
 // Function to print colored text
 void printColored(const std::string &text, const std::string &color)
@@ -35,19 +33,6 @@ void printAsciiArtColored(const std::string &filename, const std::string &color)
     }
 }
 
-// Function to display a loading animation
-void showLoadingAnimation(const std::string &message, int duration)
-{
-    const std::string animation = "|/-\\";
-    int animationIndex = 0;
-    auto start = std::chrono::steady_clock::now();
-    while (std::chrono::steady_clock::now() - start < std::chrono::seconds(duration))
-    {
-        std::cout << "\r" << message << " " << animation[animationIndex++ % animation.size()] << std::flush;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-    std::cout << "\r" << message << " Done!" << std::endl;
-}
 int main()
 {
     // Colors
@@ -78,25 +63,37 @@ int main()
 
     // Step 3: Process a search query
     std::string query;
-    printColored("Enter search query: ", blue);
-    std::getline(std::cin, query);
-
-    // Perform the search
-    std::set<int> results = booleanSearch(query, documents);
-
-    // Display the results
-    printColored("Search Results:\n", pink);
-    if (results.empty())
+    while (true)
     {
-        printColored("No documents found.\n", pink);
-    }
-    else
-    {
-        for (int docID : results)
+
+        printColored("(Type 'exit' to quit)\n", blue);
+        printColored("Enter search query: ", blue);
+        std::getline(std::cin, query);
+
+        if (query == "exit")
         {
-            std::cout << "Document ID: " << docID << " - " << documents[docID] << "\n";
+            break;
+        }
+
+        // Perform the search
+        std::set<int> results = booleanSearch(query, documents);
+
+        // Display the results
+        printColored("Search Results:\n", pink);
+        if (results.empty())
+        {
+            printColored("No documents found.\n", pink);
+        }
+        else
+        {
+            for (int docID : results)
+            {
+                std::filesystem::path filePath(documents[docID]);
+                std::cout << "Document ID: " << docID << " - " << filePath.filename().string() << " - " << filePath.parent_path().string() << "\n";
+            }
         }
     }
+    printColored("Goodbye!\n", yellow);
 
     return 0;
 }
