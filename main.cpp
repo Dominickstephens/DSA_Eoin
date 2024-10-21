@@ -6,6 +6,15 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <fstream>
+#include <regex>
+#include "include/Trie.h"
+#include "include/AutocompleteHandler.h"
+#include "src/vectorBook.h"
+#include "src/documentIndex.h"
+#include "src/IndexEntry.h"
+#include "src/serialization.h"
+#include "src/DocumentIndexer.h"
 
 // Function to print colored text
 void printColored(const std::string &text, const std::string &color)
@@ -94,6 +103,26 @@ int main()
         }
     }
     printColored("Goodbye!\n", yellow);
+
+
+        Trie<char> trie;
+
+    const std::string bookDirectory = "books";
+
+    documentIndex<string, vectorClass<IndexEntry>> index;
+
+    // Create DocumentIndexer and perform indexing
+    DocumentIndexer indexer(bookDirectory);
+    indexer.performIndexing(index);
+
+
+    serialize(index, "index.csv");
+    documentIndex<string, vectorClass<IndexEntry>> index2;
+    deserialize(index2, "index.csv");
+    index2.printFirstPair();
+
+    loadBookTitles(trie, bookDirectory);
+    handleAutocompleteInput(trie, "exit");
 
     return 0;
 }
