@@ -60,7 +60,7 @@ void setTextColorPink() {
 }
 
 // Prints the input and suggestions inline
-void printSuggestions(const std::vector<std::string>& suggestions, const std::string& input, std::vector<std::string>::size_type selectedIndex) {
+void printSuggestions(const vectorClass<std::string>& suggestions, const std::string& input, vectorClass<std::string>::size_type selectedIndex) {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
     setCursorPosition(0, csbi.dwCursorPosition.Y);
@@ -71,7 +71,8 @@ void printSuggestions(const std::vector<std::string>& suggestions, const std::st
     std::cout << input;
 
     setTextColor(FOREGROUND_INTENSITY);  // Gray for suggestions
-    size_t limit = std::min(suggestions.size(), static_cast<size_t>(3));  // Limit to 3 suggestions
+    size_t sizeSuggestions = suggestions.size();
+    size_t limit = std::min(sizeSuggestions, static_cast<size_t>(3));  // Limit to 3 suggestions
     for (size_t i = 0; i < limit; ++i) {
         if (i == selectedIndex) {
             setTextColorPink();  // Highlight selected suggestion
@@ -127,12 +128,12 @@ void handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand) {
     std::string input;
     char c;
     DWORD charsRead;
-    std::vector<std::string>::size_type selectedIndex = 0;  // Change int to size_type
+    vectorClass<std::string>::size_type selectedIndex = 0;  // Change int to size_type
 
     while (true) {
         input.clear();
         selectedIndex = 0;
-        std::vector<std::string> suggestions;  // Declare suggestions here
+        vectorClass<std::string> suggestions;  // Declare suggestions here
 
         while (true) {
             if (ReadConsoleA(hInput, &c, 1, &charsRead, NULL) && charsRead == 1) {
@@ -163,17 +164,18 @@ void handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand) {
                 }
 
                 std::string lastWord = toLowerCase(getLastWord(input));
-                suggestions = trie.autocomplete(lastWord);  // Update suggestions here
-
-                if (suggestions.empty()) {
+//                suggestions = trie.autocomplete(lastWord);  // Update suggestions here
+                vectorClass<std::string> tempSuggestions;
+                tempSuggestions.push(trie.autocomplete(lastWord));
+                if (tempSuggestions.empty()) {
                     selectedIndex = 0;
                 } else {
-                    if (selectedIndex >= suggestions.size()) {
+                    if (selectedIndex >= tempSuggestions.size()) {
                         selectedIndex = 0;
                     }
                 }
 
-                printSuggestions(suggestions, input, selectedIndex);
+                printSuggestions(tempSuggestions, input, selectedIndex);
             }
         }
 

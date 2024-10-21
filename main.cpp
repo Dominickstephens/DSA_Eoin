@@ -15,7 +15,7 @@ using namespace std;
 int main() {
     Trie<char> trie;
 
-    const std::string bookDirectory = "books";
+    const std::string bookDirectory = "../books";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
 

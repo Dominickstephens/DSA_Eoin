@@ -61,7 +61,7 @@ void vectorClass<T>::remove(const T& value) {
 
 
 template <typename T>
-void vectorClass<T>::push(T data, int index) {
+void vectorClass<T>::push(T data, size_type index) {
     if (index == capacity)
         push(data);
     else
@@ -69,7 +69,7 @@ void vectorClass<T>::push(T data, int index) {
 }
 
 template <typename T>
-T vectorClass<T>::get(int index) {
+T vectorClass<T>::get(size_type index) {
     if (index < current)
         return arr[index];
     throw std::out_of_range("Index out of range");
@@ -104,7 +104,7 @@ void vectorClass<T>::print() const {
 
 // Implementation of erase by index
 template <typename T>
-void vectorClass<T>::erase(int index) {
+void vectorClass<T>::erase(size_type index) {
     if (index < 0 || index >= current) {
         throw std::out_of_range("Index out of range");
     }

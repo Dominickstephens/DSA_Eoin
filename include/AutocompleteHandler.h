@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
-#include <vector>
 #include <windows.h>   // For Windows API
 #include "Trie.h"
+#include "../src/vectorBook.h"
+
 
 // Converts a string to lowercase for case-insensitive matching
 std::string toLowerCase(const std::string& str);
@@ -20,7 +21,7 @@ void setTextColor(WORD color);
 void setTextColorPink();
 
 // Prints the input and a maximum of 3 suggestions
-void printSuggestions(const std::vector<std::string>& suggestions, const std::string& input, int selectedIndex);
+void printSuggestions(const vectorClass<std::string>& suggestions, const std::string& input, int selectedIndex);
 
 // Returns the last word from the input string
 std::string getLastWord(const std::string& input);

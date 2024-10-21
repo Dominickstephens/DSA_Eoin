@@ -8,6 +8,7 @@ class vectorClass {
 public:
     // Define value_type
     using value_type = T;
+    using size_type = size_t;
 
     vectorClass();
 
@@ -16,10 +17,10 @@ public:
 
     ~vectorClass();
     void push(T data);
-    void push(T data, int index);
-    void erase(int index);  // Declare erase by index
+    void push(T data, size_type index);
+    void erase(size_type index);  // Declare erase by index
     void erase(const T& value);  // Declare erase by value
-    T get(int index);
+    T get(size_type index);
     void pop();
     int size() const;
     int getcapacity();
@@ -37,13 +38,14 @@ public:
     T& operator[](int index);               // Non-const version
     const T& operator[](int index) const;   // Const version
 
+    void push(const vectorClass<T> &other);
+
 private:
     T* arr;
     T* data;
     int capacity;
     int current;
 
-    void push(const vectorClass<T> &other);
 };
 
 #include "vectorBook.tpp"  // Include your implementation file

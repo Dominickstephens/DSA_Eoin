@@ -2,6 +2,7 @@
 #define TRIE_TPP
 
 #include "../include/Trie.h"
+#include "vectorBook.h"
 
 // Constructor implementation
 template <typename T>
@@ -52,9 +53,9 @@ TrieNode<T>* Trie<T>::searchPrefix(const std::basic_string<T>& prefix) {
 
 // Collect all words from a given node
 template <typename T>
-void Trie<T>::collectWords(TrieNode<T>* node, std::basic_string<T>& currentPrefix, std::vector<std::basic_string<T>>& result) {
+void Trie<T>::collectWords(TrieNode<T>* node, std::basic_string<T>& currentPrefix, vectorClass<std::basic_string<T>>& result) {
     if (node->isEndOfWord) {
-        result.push_back(currentPrefix);
+        result.push(currentPrefix);
     }
     for (auto& child : node->children) {
         currentPrefix.push_back(child.first);
@@ -65,8 +66,8 @@ void Trie<T>::collectWords(TrieNode<T>* node, std::basic_string<T>& currentPrefi
 
 // Autocomplete function to return all words that start with a given prefix
 template <typename T>
-std::vector<std::basic_string<T>> Trie<T>::autocomplete(const std::basic_string<T>& prefix) {
-    std::vector<std::basic_string<T>> result;
+vectorClass<std::basic_string<T>> Trie<T>::autocomplete(const std::basic_string<T>& prefix) {
+    vectorClass<std::basic_string<T>> result;
 
     if (TrieNode<T>* prefixNode = searchPrefix(prefix)) {  // Declare prefixNode inside the if-statement
         std::basic_string<T> currentPrefix = prefix;
