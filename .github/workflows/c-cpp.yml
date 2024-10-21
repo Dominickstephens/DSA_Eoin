@@ -36,4 +36,4 @@ jobs:
     - name: Run tests
       run: |
         cd build
-        ctest --output-on-failure  # Run tests and show output on failure
+        ctest --output-on-failure -C Release  # Run tests and show output on failure
