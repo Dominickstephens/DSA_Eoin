@@ -3,7 +3,7 @@
 #include <fstream>
 #include <algorithm>   // For std::transform
 #include <sstream>     // For splitting titles into words
-#include <conio.h>     // For _getch() to handle Tab key detection
+#include <conio.h>     // For _getch() to handle key detection
 #include <windows.h>   // For Windows API functions like SetConsoleTextAttribute
 #include "include/Trie.h"  // Trie class definition
 
@@ -49,7 +49,7 @@ void setTextColor(WORD color) {
 }
 
 // Print input and the suggestions
-void printSuggestions(const std::vector<std::string>& suggestions, const std::string& input) {
+void printSuggestions(const std::vector<std::string>& suggestions, const std::string& input, int selectedIndex) {
     // Clear the current line by moving the cursor back and clearing to the end
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
@@ -63,8 +63,12 @@ void printSuggestions(const std::vector<std::string>& suggestions, const std::st
 
     // Print suggestions below the input
     setTextColor(FOREGROUND_INTENSITY);  // Gray for suggestions
-    for (const auto& suggestion : suggestions) {
-        std::cout << " | " << suggestion;  // Display suggestions inline
+    for (size_t i = 0; i < suggestions.size(); ++i) {
+        if (i == selectedIndex) {
+            setTextColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);  // Highlight selected suggestion
+        }
+        std::cout << " | " << suggestions[i];  // Display suggestions inline
+        setTextColor(FOREGROUND_INTENSITY);  // Reset color for next suggestions
     }
 
     // Reset the color
@@ -80,12 +84,24 @@ std::string getLastWord(const std::string& input) {
     return lastWord;
 }
 
+// Function to replace the last word with a suggestion
+std::string replaceLastWord(const std::string& input, const std::string& suggestion) {
+    std::string result = input;
+    size_t lastSpace = result.find_last_of(' ');
+    if (lastSpace != std::string::npos) {
+        result = result.substr(0, lastSpace + 1) + suggestion;  // Replace only the last word
+    } else {
+        result = suggestion;  // No spaces, replace the entire input
+    }
+    return result;
+}
+
 int main() {
     // Create a Trie for characters (strings of type char)
     Trie<char> trie;
 
     // Load book titles from the "books" directory into the trie
-    std::string bookDirectory = "../books";  // Adjust the path if needed
+    std::string bookDirectory = "books";  // Adjust the path if needed
     loadBookTitles(trie, bookDirectory);
 
     // Set up the console to read input character by character
@@ -97,10 +113,12 @@ int main() {
     std::string input;
     char c;
     DWORD charsRead;
+    int selectedIndex = 0;  // Index of the currently selected suggestion
 
     while (true) {
         // Clear the input string for a new word
         input.clear();
+        selectedIndex = 0;  // Reset selection for each new input
 
         while (true) {
             // Read character-by-character input
@@ -109,9 +127,20 @@ int main() {
                     if (!input.empty()) {
                         input.pop_back();
                     }
-                } else if (c == '\r') {  // Handle Enter key (finish word)
+                    selectedIndex = 0;  // Reset selection on backspace
+                } else if (c == '\r') {  // Handle Enter key (finish word or select suggestion)
+                    std::vector<std::string> suggestions = trie.autocomplete(getLastWord(input));
+                    if (!suggestions.empty() && selectedIndex < suggestions.size()) {
+                        input = replaceLastWord(input, suggestions[selectedIndex]);  // Replace with selected suggestion
+                    }
                     std::cout << std::endl;
                     break;
+                } else if (c == 'n') {  // Next suggestion (using 'n' key)
+                    // Don't add 'n' to input
+                    selectedIndex++;
+                } else if (c == 'p') {  // Previous suggestion (using 'p' key)
+                    // Don't add 'p' to input
+                    selectedIndex--;
                 } else {
                     input += c;  // Append the character to input
                 }
@@ -121,8 +150,19 @@ int main() {
                 std::string lowerPrefix = toLowerCase(lastWord);
                 std::vector<std::string> suggestions = trie.autocomplete(lowerPrefix);
 
+                // Adjust selected index to stay within bounds
+                if (suggestions.empty()) {
+                    selectedIndex = 0; // No suggestions
+                } else {
+                    if (selectedIndex < 0) {
+                        selectedIndex = suggestions.size() - 1; // Wrap to last suggestion
+                    } else if (selectedIndex >= suggestions.size()) {
+                        selectedIndex = 0; // Wrap to first suggestion
+                    }
+                }
+
                 // Print the input and suggestions together
-                printSuggestions(suggestions, input);
+                printSuggestions(suggestions, input, selectedIndex);
             }
         }
 
