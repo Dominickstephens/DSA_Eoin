@@ -48,6 +48,13 @@ void setTextColor(WORD color) {
     SetConsoleTextAttribute(hConsole, color);
 }
 
+// Set text color in the console using Windows API (closest to pink)
+void setTextColorPink() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    // Magenta is a combination of red and blue with intensity for brightness
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+}
+
 // Print input and the suggestions
 void printSuggestions(const std::vector<std::string>& suggestions, const std::string& input, int selectedIndex) {
     // Clear the current line by moving the cursor back and clearing to the end
@@ -65,7 +72,7 @@ void printSuggestions(const std::vector<std::string>& suggestions, const std::st
     setTextColor(FOREGROUND_INTENSITY);  // Gray for suggestions
     for (size_t i = 0; i < suggestions.size(); ++i) {
         if (i == selectedIndex) {
-            setTextColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);  // Highlight selected suggestion
+            setTextColorPink();  // Set the color to magenta (closest to pink)
         }
         std::cout << " | " << suggestions[i];  // Display suggestions inline
         setTextColor(FOREGROUND_INTENSITY);  // Reset color for next suggestions
