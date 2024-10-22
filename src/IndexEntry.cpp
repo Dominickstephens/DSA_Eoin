@@ -2,7 +2,7 @@
 // Created by Dominick on 20/10/2024.
 //
 
-#include "IndexEntry.h"
+#include "../include/IndexEntry.h"
 
 ostream& operator<<(ostream& os, const IndexEntry& entry) {
     os << entry.filePath << "," << entry.fileName << "," << entry.frequency << ",";

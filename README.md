@@ -11,6 +11,7 @@ Welcome to **JellyCats Library**! A mini Windows-specific search engine for docu
 - [Searching for Documents](#searching-for-documents)
   - [Boolean operators](#boolean-operators-for-more-advanced-searches)
   - [Keyword autocomplete](#keyword-autocomplete)
+- [Testing](#testing)
 - [Exiting the Application](#exiting-the-application)
 - [Contributers](#contributers)
 
@@ -86,7 +87,22 @@ Document ID: 8 - White Nights and Other Stories_36034.txt - books
   - Press > to move forward
   - Press < to move backward
 
+## Testing 
+To run the tests we are using the Google Test Framework. 
+- Navigate to the external directory
+- clone the [googletest repo](https://github.com/google/googletest)
+```cpp
+git clone https://github.com/google/googletest.git external/googletest
+```
+- ensure the add_subdirectory line is in the CMakeLists.txt file
+```cpp
+add_subdirectory(external/googletest)
+  ```
+- The tests can be run in CLion by selecting the executable in the run configuration
 
+#### Justification
+- GoogleTest is a powerful and flexible C++ testing framework that helps ensure code reliability and maintainability through automated unit testing
+  
 ## Exiting the Application
 To exit the application, type:
    ```bash

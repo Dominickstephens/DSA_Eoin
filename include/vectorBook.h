@@ -50,6 +50,6 @@ private:
 
 };
 
-#include "vectorBook.tpp"  // Include your implementation file
+#include "../src/vectorBook.tpp"  // Include your implementation file
 
 #endif // VECTORCLASS_H
