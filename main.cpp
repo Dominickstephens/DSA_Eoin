@@ -40,6 +40,35 @@ void printAsciiArtColored(const std::string &filename, const std::string &color)
     }
 }
 
+// Function to create a hyperlink
+std::string createHyperlink(const std::string &text, const std::string &url)
+{
+    return "\033]8;;" + url + "\033\\" + text + "\033]8;;\033\\";
+}
+
+// Function to URL-encode a string
+std::string urlEncode(const std::string &value)
+{
+    std::ostringstream escaped;
+    escaped.fill('0');
+    escaped << std::hex;
+
+    for (char c : value)
+    {
+        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~')
+        {
+            escaped << c;
+        }
+        else
+        {
+            escaped << '%' << std::setw(2) << int((unsigned char)c);
+        }
+    }
+
+    return escaped.str();
+}
+
+
 int main()
 {
     // colors
@@ -58,7 +87,7 @@ int main()
 
     // dynamically load document files from the "books" folder
     std::vector<std::string> documents;
-    std::string booksFolder = "books/";
+    std::string booksFolder = "C:\\Users\\PC\\OneDrive - University of Limerick\\3rd Year\\CS4437\\Development\\DSA Project\\DSA_Eoin\\books\\";
 
     for (const auto &entry : std::filesystem::directory_iterator(booksFolder))
     {
@@ -68,7 +97,7 @@ int main()
     // build the index for the documents
     buildIndex(documents);
 
-    const std::string bookDirectory = "books/";
+    const std::string bookDirectory = "C:\\Users\\PC\\OneDrive - University of Limerick\\3rd Year\\CS4437\\Development\\DSA Project\\DSA_Eoin\\books\\";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
 
@@ -76,12 +105,15 @@ int main()
 
     std::string filename = "index.csv";
 
-    if (!std::filesystem::exists(filename)) {
+    if (!std::filesystem::exists(filename))
+    {
         cout << "File does not exist. Serialization performed." << endl;
         DocumentIndexer indexer(bookDirectory);
         indexer.performIndexing(index);
-        serialize(index, filename); 
-    } else {
+        serialize(index, filename); // Call serialize only if the file does not exist
+    }
+    else
+    {
         cout << "File already exists. Serialization skipped." << endl;
     }
     documentIndex<string, vectorClass<IndexEntry>> index2;
@@ -119,7 +151,8 @@ int main()
             for (int docID : results.toVector())
             {
                 std::filesystem::path filePath(documents[docID]);
-                std::cout << "Document ID: " << docID << " - " << filePath.filename().string() << " - " << filePath.parent_path().string() << "\n";
+                std::string fileLink = createHyperlink(filePath.filename().string(), "file:///" + urlEncode(filePath.string()));
+                std::cout << "Document ID: " << docID << " - " << fileLink << " - " << filePath.parent_path().string() << "\n";
             }
         }
     }
