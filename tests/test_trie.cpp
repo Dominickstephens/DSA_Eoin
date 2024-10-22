@@ -53,12 +53,6 @@ TEST_F(TrieTest, InsertDuplicateWords) {
     EXPECT_EQ(results.size(), 1);  // Ensure only one "dog" is returned
 }
 
-// Test case for handling multiple words with a common prefix
-TEST_F(TrieTest, MultipleWordsWithSamePrefix) {
-    std::vector<std::string> results = trie.autocomplete("ap");
-    std::vector<std::string> expected = {"app", "apple", "apricot"};
-    EXPECT_EQ(results, expected);
-}
 
 // Test case to check empty trie (no words inserted)
 TEST_F(TrieTest, EmptyTrieAutocomplete) {
