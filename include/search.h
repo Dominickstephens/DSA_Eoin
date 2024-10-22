@@ -2,14 +2,14 @@
 #define SEARCH_H
 
 #include <string>
-#include <set>
 #include <vector>
+#include "Set.h"
 
 // Function declarations for Boolean operations
-std::set<int> getDocumentsForKeyword(const std::string &keyword);
-std::set<int> booleanAnd(const std::set<int> &set1, const std::set<int> &set2);
-std::set<int> booleanOr(const std::set<int> &set1, const std::set<int> &set2);
-std::set<int> booleanNot(const std::set<int> &allDocs, const std::set<int> &setToExclude);
-std::set<int> booleanSearch(const std::string &query, const std::vector<std::string> &allDocs);
+Set<int> getDocumentsForKeyword(const std::string &keyword);
+Set<int> booleanAnd(const Set<int> &set1, const Set<int> &set2);
+Set<int> booleanOr(const Set<int> &set1, const Set<int> &set2);
+Set<int> booleanNot(const Set<int> &allDocs, const Set<int> &setToExclude);
+Set<int> booleanSearch(const std::string &query, const std::vector<std::string> &allDocs);
 
 #endif // SEARCH_H

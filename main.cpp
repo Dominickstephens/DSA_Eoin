@@ -1,7 +1,6 @@
 #include "include/indexing.h"
 #include "include/search.h"
 #include <iostream>
-#include <set>
 #include <filesystem>
 #include <vector>
 #include <fstream>
@@ -108,18 +107,18 @@ int main()
             break;
         }
 
-        // Use the selected/entered term from autocomplete to perform the search
-        std::set<int> results = booleanSearch(autocompleteResult, documents);
+         // Use the selected/entered term from autocomplete to perform the search
+        Set<int> results = booleanSearch(autocompleteResult, documents);
 
-        // Display the results
+       // Display the results
         printColored("Search Results:\n", pink);
-        if (results.empty())
+        if (results.toVector().empty())
         {
             printColored("No documents found.\n", pink);
         }
         else
         {
-            for (int docID : results)
+            for (int docID : results.toVector())
             {
                 std::filesystem::path filePath(documents[docID]);
                 std::cout << "Document ID: " << docID << " - " << filePath.filename().string() << " - " << filePath.parent_path().string() << "\n";

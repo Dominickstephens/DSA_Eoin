@@ -47,7 +47,7 @@ Set<T> Set<T>::setUnion(const Set<T>& other) const {
 
 template <typename T>
 Set<T> Set<T>::setDifference(const Set<T>& other) const {
-   Set<T> result;
+    Set<T> result;
     for (const auto& elem : elements) {
         if (!other.contains(elem)) {
             result.insert(elem);
