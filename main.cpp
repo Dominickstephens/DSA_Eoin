@@ -130,7 +130,7 @@ int main()
             for (int docID : results.toVector())
             {
                 std::filesystem::path filePath(documents[docID]);
-                std::string fileLink = createHyperlink(filePath.filename().string(), "file:///" + filePath.string());
+                std::string fileLink = createHyperlink(filePath.filename().string(), "file://" + filePath.string());
                 std::cout << "Document ID: " << docID << " - " << fileLink << " - " << filePath.parent_path().string() << "\n";
             }
         }
