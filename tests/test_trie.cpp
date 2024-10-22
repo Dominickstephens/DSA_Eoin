@@ -6,7 +6,6 @@ protected:
     Trie<char> trie; 
 
     void SetUp() override {
-        // runs before every test case
         trie.insert("apple");
         trie.insert("app");
         trie.insert("apricot");
@@ -14,7 +13,6 @@ protected:
     }
 
     void TearDown() override {
-        // runs after every test case. Destructor of the trie will take care of memory clean-up 🧹
     }
 };
 

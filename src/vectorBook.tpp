@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdexcept>  // For std::out_of_range and std::runtime_error
+#include <stdexcept>  
 #include <functional>
 #include "../include/vectorBook.h"
 
@@ -51,13 +51,13 @@ void vectorClass<T>::push(const vectorClass<T>& other) {
 
 template <typename T>
 void vectorClass<T>::remove(const T& value) {
-    int newSize = 0; // New size after removal
+    int newSize = 0; // new size after removal
     for (int i = 0; i < current; i++) {
         if (arr[i] != value) {
-            arr[newSize++] = arr[i];  // Keep the value if it is not equal to the one being removed
+            arr[newSize++] = arr[i];  // keep the value if it is not equal to the one being removed
         }
     }
-    current = newSize;  // Update current size
+    current = newSize;  // update current size
 }
 
 
@@ -103,26 +103,26 @@ void vectorClass<T>::print() const {
     cout << endl;
 }
 
-// Implementation of erase by index
+// erase by index
 template <typename T>
 void vectorClass<T>::erase(int index) {
     if (index < 0 || index >= current) {
         throw std::out_of_range("Index out of range");
     }
 
-    // Shift elements to the left to fill the gap
+    // shift elements to the left to fill the gap
     for (int i = index; i < current - 1; i++) {
         arr[i] = arr[i + 1];
     }
     current--;
 }
 
-// Implementation of erase by value
+// erase by value
 template <typename T>
 void vectorClass<T>::erase(const T& value) {
     for (int i = 0; i < current; i++) {
         if (arr[i] == value) {
-            erase(i);  // Call erase by index
+            erase(i); 
             return;
         }
     }
@@ -131,7 +131,7 @@ void vectorClass<T>::erase(const T& value) {
 
 template <typename T>
 bool vectorClass<T>::empty() const {
-    return current == 0; // Returns true if the current size is 0
+    return current == 0; // returns true if the current size is 0
 }
 
 template <typename T>
@@ -150,7 +150,7 @@ const T& vectorClass<T>::operator[](int index) const {
     return arr[index];
 }
 
-// Copy constructor
+// copy constructor
 template <typename T>
 vectorClass<T>::vectorClass(const vectorClass<T>& other) {
     capacity = other.capacity;
@@ -161,16 +161,16 @@ vectorClass<T>::vectorClass(const vectorClass<T>& other) {
     }
 }
 
-// Assignment operator
+// qssignment operator
 template <typename T>
 vectorClass<T>& vectorClass<T>::operator=(const vectorClass<T>& other) {
-    if (this == &other) return *this; // Handle self-assignment
+    if (this == &other) return *this; // handle self-assignment
 
-    delete[] arr; // Clean up existing memory
+    delete[] arr; // clean up existing memory
 
     capacity = other.capacity;
     current = other.current;
-    arr = new T[capacity]; // Allocate new memory
+    arr = new T[capacity]; // qllocate new memory
     for (int i = 0; i < current; i++) {
         arr[i] = other.arr[i];
     }
@@ -180,11 +180,11 @@ vectorClass<T>& vectorClass<T>::operator=(const vectorClass<T>& other) {
 
 template <typename T>
 void vectorClass<T>::erase_if(std::function<bool(const T&)> predicate) {
-    int newSize = 0; // New size after removal
+    int newSize = 0; // new size after removal
     for (int i = 0; i < current; i++) {
         if (!predicate(arr[i])) {
-            arr[newSize++] = arr[i];  // Keep the value if it does not satisfy the predicate
+            arr[newSize++] = arr[i];  // keep the value if it does not satisfy the predicate
         }
     }
-    current = newSize;  // Update current size
+    current = newSize;  // update current size
 }
