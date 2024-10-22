@@ -23,6 +23,8 @@ add_executable(DSA_project
     include/search.h
     src/utils.cpp
     include/utils.h
+    include/Set.h
+    src/Set.tpp
 )
 
 # Link any additional libraries if necessary
@@ -36,7 +38,7 @@ enable_testing()
 
 # Add a test executable
 add_executable(DSA_project_tests
-        test/test.cpp
+        tests/test.cpp
 )
 
 # Link the necessary libraries for testing (if any, e.g., Google Test)
