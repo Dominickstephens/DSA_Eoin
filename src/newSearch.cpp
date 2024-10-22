@@ -3,8 +3,8 @@
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
-#include "IndexEntry.h"
-#include "documentIndex.h"
+#include "../include/IndexEntry.h"
+#include "../include/documentIndex.h"
 
 
 using namespace std;
@@ -19,8 +19,8 @@ bool containsAllKeywords(const vectorClass<string>& keywords, const vectorClass<
         for (size_t i = 0; i < keywords.size(); ++i) {
             if (index.find(keywords[i]) == index.end()) return false;
         }
-        return true;
     }
+       return true;
 }
 
 // Helper function to check if any entry contains any keyword

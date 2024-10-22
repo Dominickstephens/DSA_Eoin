@@ -1,8 +1,9 @@
-
+#include "include/indexing.h"
 #include "include/search.h"
 #include <iostream>
 #include <filesystem>
 #include <vector>
+#include <fstream>
 #include <string>
 #include <regex>
 #include "include/Trie.h"
@@ -12,9 +13,6 @@
 #include "include/IndexEntry.h"
 #include "include/serialization.h"
 #include "include/DocumentIndexer.h"
-#include "include/AsciiArt.h"
-#include "src/newSearch.h"
-#include "include/AccessBook.h"
 
 // Function to print colored text
 void printColored(const std::string &text, const std::string &color)
@@ -50,18 +48,27 @@ int main()
     const std::string pink = "\033[38;5;218m";
 
     // Welcome banner
-
-    AsciiArt::printColored("Welcome to the JellyCats Library!\n", yellow);
-    AsciiArt::printColored("=============================================\n", yellow);
+    printColored("Welcome to the JellyCats Library!\n", yellow);
+    printColored("=============================================\n", yellow);
 
     // Print ASCII art
-    AsciiArt::printAsciiArtColored("cat_art.txt", pink);
+    printAsciiArtColored("C:/Users/PC/OneDrive - University of Limerick/3rd Year/CS4437/Development/DSA Project/DSA_Eoin/cat_art.txt", pink);
 
-    AsciiArt::printColored("=============================================\n", yellow);
+    printColored("=============================================\n", yellow);
 
     // Step 1: Dynamically load document files from the "books" folder
     std::vector<std::string> documents;
-    std::string booksFolder = "books/";
+    std::string booksFolder = "C:/Users/PC/OneDrive - University of Limerick/3rd Year/CS4437/Development/DSA Project/DSA_Eoin/books";
+
+    for (const auto &entry : std::filesystem::directory_iterator(booksFolder))
+    {
+        documents.push_back(entry.path().string());
+    }
+
+    // Step 2: Build the index for the documents
+    buildIndex(documents);
+
+    const std::string bookDirectory = "C:/Users/PC/OneDrive - University of Limerick/3rd Year/CS4437/Development/DSA Project/DSA_Eoin/books";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
 
@@ -70,22 +77,26 @@ int main()
     std::string filename = "index.csv";
 
     if (!std::filesystem::exists(filename)) {
-        DocumentIndexer indexer(booksFolder);
+        cout << "File does not exist. Serialization performed." << endl;
+        DocumentIndexer indexer(bookDirectory);
         indexer.performIndexing(index);
         serialize(index, filename); // Call serialize only if the file does not exist
     } else {
-        deserialize(index, "index.csv");
+        cout << "File already exists. Serialization skipped." << endl;
     }
+    documentIndex<string, vectorClass<IndexEntry>> index2;
+    deserialize(index2, "index.csv");
+    index2.printFirstPair();
 
-// Load book titles into the Trie for autocomplete suggestions
-    loadBookTitles(trie, index);
+    // Load book titles into the Trie for autocomplete suggestions
+    loadBookTitles(trie, index2);
 
-// Step 3: Process a search query with autocomplete
+    // Step 3: Process a search query with autocomplete
     std::string query;
     while (true)
     {
-        AsciiArt::printColored("(Type 'exit' to quit)\n", blue);
-        AsciiArt::printColored("Enter search query: ", blue);
+        printColored("(Type 'exit' to quit)\n", blue);
+        printColored("Enter search query: ", blue);
 
         // Handle autocomplete functionality
         std::string autocompleteResult = handleAutocompleteInput(trie, "exit");
@@ -96,32 +107,26 @@ int main()
             break;
         }
 
-        // Use the selected/entered term from autocomplete to perform the search
-        vectorClass<IndexEntry> results = search(autocompleteResult, index);
+         // Use the selected/entered term from autocomplete to perform the search
+        Set<int> results = booleanSearch(autocompleteResult, documents);
 
-        // Display the results
-        AsciiArt::printColored("Search Results:\n", pink);
-        if (results.empty())
+       // Display the results
+        printColored("Search Results:\n", pink);
+        if (results.toVector().empty())
         {
-            AsciiArt::printColored("No documents found.\n", pink);
+            printColored("No documents found.\n", pink);
         }
         else
         {
-
-            // Loop through and print the results
-            for (size_t i = 0; i < results.size(); ++i) {
-                std::cout << "File Path: " << results[i].filePath << std::endl;
-                std::cout << "File Name: " << results[i].fileName << std::endl;
-                for (size_t j = 0; j < 4 && j < results[i].positionOffsets.size(); ++j) {
-                    cout << printLineAtBytePosition(results[i].filePath, results[i].positionOffsets[j], autocompleteResult) << endl;
-                }
-                std::cout << std::endl << "-----------------" << std::endl;  // Divider for each entry
+            for (int docID : results.toVector())
+            {
+                std::filesystem::path filePath(documents[docID]);
+                std::cout << "Document ID: " << docID << " - " << filePath.filename().string() << " - " << filePath.parent_path().string() << "\n";
             }
-
         }
     }
 
-    AsciiArt::printColored("Goodbye!\n", yellow);
+    printColored("Goodbye!\n", yellow);
 
     return 0;
 }
