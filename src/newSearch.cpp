@@ -2,7 +2,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
-#include <unordered_set>
+#include "../include/Set.h"
 #include "../include/IndexEntry.h"
 #include "../include/documentIndex.h"
 
@@ -10,7 +10,7 @@
 using namespace std;
 
 bool containsAllKeywords(const vectorClass<string>& keywords, const vectorClass<IndexEntry>& entries, documentIndex<std::string, vectorClass<IndexEntry>> index) {
-    unordered_set<string> entryFiles;
+    Set<string> entryFiles;
     for (size_t i = 0; i < entries.size(); ++i) {
         {
             entryFiles.insert(entries[i].filePath);
