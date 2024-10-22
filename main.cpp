@@ -14,32 +14,8 @@
 #include "src/IndexEntry.h"
 #include "src/serialization.h"
 #include "src/DocumentIndexer.h"
+#include "include/AsciiArt.h"
 
-// Function to print colored text
-void printColored(const std::string &text, const std::string &color)
-{
-    std::cout << color << text << "\033[0m";
-}
-
-// Function to print the ASCII art from a file with a specific color
-void printAsciiArtColored(const std::string &filename, const std::string &color)
-{
-    std::ifstream file(filename);
-    if (file.is_open())
-    {
-        std::string line;
-        while (std::getline(file, line))
-        {
-            printColored(line, color);
-            std::cout << std::endl;
-        }
-        file.close();
-    }
-    else
-    {
-        std::cerr << "Unable to open file: " << filename << std::endl;
-    }
-}
 
 int main()
 {
@@ -49,27 +25,18 @@ int main()
     const std::string pink = "\033[38;5;218m";
 
     // Welcome banner
-    printColored("Welcome to the JellyCats Library!\n", yellow);
-    printColored("=============================================\n", yellow);
+
+    AsciiArt::printColored("Welcome to the JellyCats Library!\n", yellow);
+    AsciiArt::printColored("=============================================\n", yellow);
 
     // Print ASCII art
-    printAsciiArtColored("cat_art.txt", pink);
+    AsciiArt::printAsciiArtColored(R"(C:\Users\Dominick\CLionProjects\DSA_project\cat_art.txt)", pink);
 
-    printColored("=============================================\n", yellow);
+    AsciiArt::printColored("=============================================\n", yellow);
 
     // Step 1: Dynamically load document files from the "books" folder
     std::vector<std::string> documents;
-    std::string booksFolder = "books/";
-
-    for (const auto &entry : std::filesystem::directory_iterator(booksFolder))
-    {
-        documents.push_back(entry.path().string());
-    }
-
-    // Step 2: Build the index for the documents
-    buildIndex(documents);
-
-    const std::string bookDirectory = "books";
+    std::string booksFolder = R"(C:\Users\Dominick\CLionProjects\DSA_project\books)";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
 
@@ -79,7 +46,7 @@ int main()
 
     if (!std::filesystem::exists(filename)) {
         cout << "File does not exist. Serialization performed." << endl;
-        DocumentIndexer indexer(bookDirectory);
+        DocumentIndexer indexer(booksFolder);
         indexer.performIndexing(index);
         serialize(index, filename); // Call serialize only if the file does not exist
     } else {
@@ -96,8 +63,8 @@ int main()
     std::string query;
     while (true)
     {
-        printColored("(Type 'exit' to quit)\n", blue);
-        printColored("Enter search query: ", blue);
+        AsciiArt::printColored("(Type 'exit' to quit)\n", blue);
+        AsciiArt::printColored("Enter search query: ", blue);
 
         // Handle autocomplete functionality
         std::string autocompleteResult = handleAutocompleteInput(trie, "exit");
@@ -112,10 +79,10 @@ int main()
         std::set<int> results = booleanSearch(autocompleteResult, documents);
 
         // Display the results
-        printColored("Search Results:\n", pink);
+        AsciiArt::printColored("Search Results:\n", pink);
         if (results.empty())
         {
-            printColored("No documents found.\n", pink);
+            AsciiArt::printColored("No documents found.\n", pink);
         }
         else
         {
@@ -127,7 +94,7 @@ int main()
         }
     }
 
-    printColored("Goodbye!\n", yellow);
+    AsciiArt::printColored("Goodbye!\n", yellow);
 
     return 0;
 }
