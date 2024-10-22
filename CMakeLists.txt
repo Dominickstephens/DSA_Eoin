@@ -11,11 +11,11 @@ add_executable(DSA_project
         include/AutocompleteHandler.h
         src/AutocompleteHandler.cpp
         src/vectorBook.tpp
-        src/serialization.h
-        src/documentIndex.h
-        src/IndexEntry.h
+        include/serialization.h
+        include/documentIndex.h
+        include/IndexEntry.h
         src/DocumentIndexer.cpp
-        src/DocumentIndexer.h
+        include/DocumentIndexer.h
         src/IndexEntry.cpp
         src/indexing.cpp
         include/indexing.h
