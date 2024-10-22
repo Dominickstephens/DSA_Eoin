@@ -31,13 +31,13 @@ int main()
     AsciiArt::printColored("=============================================\n", yellow);
 
     // Print ASCII art
-    AsciiArt::printAsciiArtColored(R"(C:\Users\Dominick\CLionProjects\DSA_project\cat_art.txt)", pink);
+    AsciiArt::printAsciiArtColored("cat_art.txt", pink);
 
     AsciiArt::printColored("=============================================\n", yellow);
 
     // Step 1: Dynamically load document files from the "books" folder
     std::vector<std::string> documents;
-    std::string booksFolder = R"(C:\Users\Dominick\CLionProjects\DSA_project\books)";
+    std::string booksFolder = "books/";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
 
