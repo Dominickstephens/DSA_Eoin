@@ -27,30 +27,22 @@ add_executable(DSA_project
         src/Set.tpp
         include/pairImp.h
         include/AsciiArt.h
-        src/AsciiArt.cpp 
-        src/newSearch.cpp 
+        src/AsciiArt.cpp
+        src/newSearch.cpp
         include/newSearch.h
-        src/AccessBook.cpp 
+        src/AccessBook.cpp
         include/AccessBook.h
 )
 
 # Download and add GoogleTest as a subdirectory
 add_subdirectory(external/googletest)
 
-# Link any additional libraries if necessary (none for now)
-target_link_libraries(DSA_project)
 
 # Enable testing
 enable_testing()
 
-# Link GoogleTest libraries to the test executable
-target_link_libraries(DSA_project_tests gtest gtest_main)
-
 # Register the test executable with CMake's testing suite
 add_test(NAME DSAProjectTests COMMAND DSA_project_tests)
-
-# Ensure the main project executable and tests are built
-add_dependencies(DSA_project_tests DSA_project)
 
 # Test executable for indexing tests
 add_executable(test_indexing
