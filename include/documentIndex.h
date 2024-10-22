@@ -137,14 +137,17 @@ public:
         cout << "No elements in the document index." << endl;
     }
 
-    void removeValue(const typename ValueType::value_type& value) {
+    void removeValueByFileName(const std::string& fileName) {
         for (auto& bucket : table) {
             for (auto& pair : bucket) {
-                auto& vec = pair.second;  
-                vec.remove(value);  
+                auto& vec = pair.second;
+                vec.erase(std::remove_if(vec.begin(), vec.end(), [&](const auto& value) {
+                    return value.fileName == fileName; // assuming `fileName` is a field in `value`
+                }), vec.end());
             }
         }
     }
+
 
     vector<vector<Pair<KeyType, ValueType>>> table;
 private:
