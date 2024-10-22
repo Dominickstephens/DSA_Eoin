@@ -43,11 +43,6 @@ target_link_libraries(DSA_project)
 # Enable testing
 enable_testing()
 
-# Add test executable for DSA_project tests
-add_executable(DSA_project_tests
-        tests/test.cpp
-)
-
 # Link GoogleTest libraries to the test executable
 target_link_libraries(DSA_project_tests gtest gtest_main)
 
