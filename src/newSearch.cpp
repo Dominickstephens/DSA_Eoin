@@ -91,9 +91,9 @@ vectorClass<IndexEntry> search(const string& query, documentIndex<std::string, v
                 if (index.find(orKeywords[i]) != index.end()) {
                     auto &entries = index.at(orKeywords[i]);
                     if (!entries.empty()) { // Ensure entries is not empty
-                        for (size_t i = 0; i < entries.size(); ++i) {
+                        for (const auto &entry: entries) {
                             if (containsAnyKeywords(orKeywords, entries, index)) {
-                                result.push(entries[i]);
+                                result.push(entry);
                             }
                         }
                     }
