@@ -32,7 +32,6 @@ add_executable(DSA_project
         src/newSearch.h
         src/AccessBook.cpp 
         include/AccessBook.h
-        )
 )
 
 # Link any additional libraries if necessary
