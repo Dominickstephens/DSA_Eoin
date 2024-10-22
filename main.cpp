@@ -1,22 +1,46 @@
 
 #include "include/search.h"
 #include <iostream>
-#include <set>
 #include <filesystem>
 #include <vector>
 #include <string>
 #include <regex>
 #include "include/Trie.h"
 #include "include/AutocompleteHandler.h"
-#include "src/vectorBook.h"
-#include "src/documentIndex.h"
-#include "src/IndexEntry.h"
-#include "src/serialization.h"
-#include "src/DocumentIndexer.h"
+#include "include/vectorBook.h"
+#include "include/documentIndex.h"
+#include "include/IndexEntry.h"
+#include "include/serialization.h"
+#include "include/DocumentIndexer.h"
 #include "include/AsciiArt.h"
 #include "src/newSearch.h"
 #include "include/AccessBook.h"
 
+// Function to print colored text
+void printColored(const std::string &text, const std::string &color)
+{
+    std::cout << color << text << "\033[0m";
+}
+
+// Function to print the ASCII art from a file with a specific color
+void printAsciiArtColored(const std::string &filename, const std::string &color)
+{
+    std::ifstream file(filename);
+    if (file.is_open())
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {
+            printColored(line, color);
+            std::cout << std::endl;
+        }
+        file.close();
+    }
+    else
+    {
+        std::cerr << "Unable to open file: " << filename << std::endl;
+    }
+}
 
 int main()
 {

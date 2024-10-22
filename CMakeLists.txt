@@ -11,11 +11,11 @@ add_executable(DSA_project
         include/AutocompleteHandler.h
         src/AutocompleteHandler.cpp
         src/vectorBook.tpp
-        src/serialization.h
-        src/documentIndex.h
-        src/IndexEntry.h
+        include/serialization.h
+        include/documentIndex.h
+        include/IndexEntry.h
         src/DocumentIndexer.cpp
-        src/DocumentIndexer.h
+        include/DocumentIndexer.h
         src/IndexEntry.cpp
         src/indexing.cpp
         include/indexing.h
@@ -23,9 +23,16 @@ add_executable(DSA_project
         include/search.h
         src/utils.cpp
         include/utils.h
+        include/Set.h
+        src/Set.tpp
         include/pairImp.h
         include/AsciiArt.h
-        src/AsciiArt.cpp src/newSearch.cpp src/newSearch.h src/newSearch.h src/AccessBook.cpp include/AccessBook.h)
+        src/AsciiArt.cpp 
+        src/newSearch.cpp 
+        src/newSearch.h
+        src/AccessBook.cpp 
+        include/AccessBook.h
+)
 
 # Link any additional libraries if necessary
 target_link_libraries(DSA_project)
@@ -38,7 +45,7 @@ enable_testing()
 
 # Add a test executable
 add_executable(DSA_project_tests
-        test/test.cpp
+        tests/test.cpp
 )
 
 # Link the necessary libraries for testing (if any, e.g., Google Test)

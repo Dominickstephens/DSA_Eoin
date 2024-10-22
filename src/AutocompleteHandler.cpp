@@ -1,7 +1,7 @@
 #include "../include/AutocompleteHandler.h"
-#include "vectorBook.h"
-#include "IndexEntry.h"
-#include "documentIndex.h"
+#include "../include/vectorBook.h"
+#include "../include/IndexEntry.h"
+#include "../include/documentIndex.h"
 #include <iostream>
 #include <filesystem>
 #include <fstream>
