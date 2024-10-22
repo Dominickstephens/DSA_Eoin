@@ -48,7 +48,12 @@ int main()
     std::string filename = "index.csv";
     std::string Wordfilename = "WordCount.csv";
 
-    if (!std::filesystem::exists(filename)) {
+//    ask the user if they want to reserealize the index
+    std::string reserialize;
+    AsciiArt::printColored("Do you want to reserialize the index? (yes/no): ", blue);
+    std::cin >> reserialize;
+
+    if ((!std::filesystem::exists(filename) || reserialize == "yes")) {
         DocumentIndexer indexer(booksFolder);
         indexer.performIndexing(index,fileWordCount);
         serialize(index, filename); // Call serialize only if the file does not exist
