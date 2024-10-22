@@ -7,9 +7,9 @@
 
 
 #include <utility>
-#include "../src/IndexEntry.h"  // Include your IndexEntry definition
+#include "../include/IndexEntry.h"  // Include your IndexEntry definition
 #include "pairImp.h"  // Include your Pair definition
-#include "../src/vectorBook.h"  // Include your IndexEntry definition
+#include "../include/vectorBook.h"  // Include your IndexEntry definition
 
 
 

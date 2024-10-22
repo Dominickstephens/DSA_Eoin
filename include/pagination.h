@@ -5,7 +5,7 @@
 #ifndef DSA_PROJECT_PAGINATION_H
 #define DSA_PROJECT_PAGINATION_H
 
-#include "../src/IndexEntry.h"
+#include "../include/IndexEntry.h"
 #include "pairImp.h"
 
 void paginateResults(const vectorClass<Pair<IndexEntry, double>>& resultsVector, int itemsPerPage);

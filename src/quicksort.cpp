@@ -3,6 +3,7 @@
 //
 
 #include "../include/quicksort.h"
+#include "../include/IndexEntry.h"
 #include <algorithm>  // For std::swap
 
 
