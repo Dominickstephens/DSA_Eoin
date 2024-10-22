@@ -7,9 +7,9 @@
 ostream& operator<<(ostream& os, const IndexEntry& entry) {
     os << entry.filePath << "," << entry.fileName << "," << entry.frequency << ",";
 
-    for (size_t i = 0; i < entry.bytePositions.size(); ++i) {
-        os << entry.bytePositions[i];
-        if (i < entry.bytePositions.size() - 1) {
+    for (size_t i = 0; i < entry.positionOffsets.size(); ++i) {
+        os << entry.positionOffsets[i];
+        if (i < entry.positionOffsets.size() - 1) {
             os << "|";  // Separate byte positions by pipe
         }
     }
@@ -35,7 +35,7 @@ IndexEntry parseIndexEntry(const string& str) {
 
     while (getline(bytePositionsStream, bytePosition, '|')) {
         // Convert the string to streampos (using stoll for long long conversion)
-        entry.bytePositions.push(static_cast<streampos>(stoll(bytePosition)));
+        entry.positionOffsets.push(static_cast<streampos>(stoll(bytePosition)));
     }
 
     return entry;

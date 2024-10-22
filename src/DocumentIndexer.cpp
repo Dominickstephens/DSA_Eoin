@@ -33,7 +33,7 @@ void DocumentIndexer::processFile(const directory_entry& dirEntry,
     string line;
 
     while (file) {
-        streampos bytePosition = file.tellg();
+        streampos positionOffset = file.tellg();
         if (!getline(file, line)) break;
 
         istringstream iss(line);
@@ -46,7 +46,7 @@ void DocumentIndexer::processFile(const directory_entry& dirEntry,
             entry.filePath = dirEntry.path().string();
             entry.fileName = dirEntry.path().filename().string();
             entry.frequency = 1;
-            entry.bytePositions.push(bytePosition);
+            entry.positionOffsets.push(positionOffset);
 
             index.insert(word, entry);
         }

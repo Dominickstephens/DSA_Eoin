@@ -2,6 +2,7 @@
 #define VECTORCLASS_H
 
 #include <iostream>
+#include <functional>
 
 template <typename T>
 class vectorClass {
@@ -37,6 +38,8 @@ public:
     T& operator[](int index);               // Non-const version
     const T& operator[](int index) const;   // Const version
 
+    void erase_if(std::function<bool(const T &)> predicate);
+
 private:
     T* arr;
     T* data;
@@ -44,6 +47,7 @@ private:
     int current;
 
     void push(const vectorClass<T> &other);
+
 };
 
 #include "vectorBook.tpp"  // Include your implementation file
