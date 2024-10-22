@@ -3,19 +3,17 @@
 
 #include "../include/Trie.h"
 
-// Constructor implementation
 template <typename T>
 Trie<T>::Trie() {
     root = new TrieNode<T>();
 }
 
-// Destructor implementation
 template <typename T>
 Trie<T>::~Trie() {
     deleteTrie(root);
 }
 
-// Recursive helper to delete the Trie nodes
+// recursive helper to delete the Trie nodes
 template <typename T>
 void Trie<T>::deleteTrie(TrieNode<T>* node) {
     for (auto& child : node->children) {
@@ -24,7 +22,7 @@ void Trie<T>::deleteTrie(TrieNode<T>* node) {
     delete node;
 }
 
-// Insert a word into the Trie
+// insert into the Trie
 template <typename T>
 void Trie<T>::insert(const std::basic_string<T>& word) {
     TrieNode<T>* current = root;
@@ -37,7 +35,7 @@ void Trie<T>::insert(const std::basic_string<T>& word) {
     current->isEndOfWord = true;
 }
 
-// Search for a prefix in the Trie
+// search for a prefix in the Trie
 template <typename T>
 TrieNode<T>* Trie<T>::searchPrefix(const std::basic_string<T>& prefix) {
     TrieNode<T>* current = root;
@@ -50,7 +48,7 @@ TrieNode<T>* Trie<T>::searchPrefix(const std::basic_string<T>& prefix) {
     return current;
 }
 
-// Collect all words from a given node
+// collect all words from a given node
 template <typename T>
 void Trie<T>::collectWords(TrieNode<T>* node, std::basic_string<T>& currentPrefix, std::vector<std::basic_string<T>>& result) {
     if (node->isEndOfWord) {
@@ -63,12 +61,12 @@ void Trie<T>::collectWords(TrieNode<T>* node, std::basic_string<T>& currentPrefi
     }
 }
 
-// Autocomplete function to return all words that start with a given prefix
+// autocomplete function
 template <typename T>
 std::vector<std::basic_string<T>> Trie<T>::autocomplete(const std::basic_string<T>& prefix) {
     std::vector<std::basic_string<T>> result;
 
-    if (TrieNode<T>* prefixNode = searchPrefix(prefix)) {  // Declare prefixNode inside the if-statement
+    if (TrieNode<T>* prefixNode = searchPrefix(prefix)) { 
         std::basic_string<T> currentPrefix = prefix;
         collectWords(prefixNode, currentPrefix, result);
     }

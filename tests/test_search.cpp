@@ -6,10 +6,6 @@
 #include "../include/search.h"
 #include "../include/indexing.h"
 
-
-
-
-// Test fixture for search tests
 class SearchTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -18,7 +14,7 @@ protected:
     }
 };
 
-// Test getDocumentsForKeyword function
+// getDocumentsForKeyword
 TEST_F(SearchTest, GetDocumentsForKeyword) {
     invertedIndex["test"] = {1, 2, 3};
     std::set<int> result = getDocumentsForKeyword("test");
@@ -30,7 +26,7 @@ TEST_F(SearchTest, GetDocumentsForKeyword) {
     ASSERT_EQ(result, expected);
 }
 
-// Test booleanAnd function
+// booleanAnd 
 TEST_F(SearchTest, BooleanAnd) {
     std::set<int> set1 = {1, 2, 3};
     std::set<int> set2 = {2, 3, 4};
@@ -39,7 +35,7 @@ TEST_F(SearchTest, BooleanAnd) {
     ASSERT_EQ(result, expected);
 }
 
-// Test booleanOr function
+// booleanOr 
 TEST_F(SearchTest, BooleanOr) {
     std::set<int> set1 = {1, 2, 3};
     std::set<int> set2 = {2, 3, 4};
@@ -48,7 +44,7 @@ TEST_F(SearchTest, BooleanOr) {
     ASSERT_EQ(result, expected);
 }
 
-// Test booleanNot function
+// booleanNot
 TEST_F(SearchTest, BooleanNot) {
     std::set<int> allDocs = {1, 2, 3, 4};
     std::set<int> setToExclude = {2, 3};
@@ -57,7 +53,7 @@ TEST_F(SearchTest, BooleanNot) {
     ASSERT_EQ(result, expected);
 }
 
-// Test booleanSearch function
+// booleanSearch 
 TEST_F(SearchTest, BooleanSearch) {
     invertedIndex["cat"] = {0, 1};
     invertedIndex["dog"] = {1, 2};
