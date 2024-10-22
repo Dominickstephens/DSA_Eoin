@@ -2,8 +2,8 @@
 // Created by Dominick on 20/10/2024.
 //
 
-#include "DocumentIndexer.h"
-#include "vectorBook.h"
+#include "../include/DocumentIndexer.h"
+#include "../include/vectorBook.h"
 
 
 #include <utility>

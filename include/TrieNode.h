@@ -3,14 +3,14 @@
 
 #include <unordered_map>
 
-// Template for Trie Node
 template <typename T>
-class TrieNode {
+class TrieNode
+{
 public:
-    std::unordered_map<T, TrieNode*> children;  // Links to child nodes
-    bool isEndOfWord;  // True if node marks the end of a word
+    std::unordered_map<T, TrieNode *> children;
+    bool isEndOfWord; // True if node marks the end of a word
 
-    TrieNode();  // Constructor declaration
+    TrieNode();
 };
 
 #include "../src/TrieNode.tpp"

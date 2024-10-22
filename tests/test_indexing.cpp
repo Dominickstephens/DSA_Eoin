@@ -8,16 +8,14 @@
 #include "../include/utils.h" 
 
 
-// Test fixture for indexing tests
 class IndexingTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Clear the inverted index before each test
         invertedIndex.clear();
     }
 };
 
-// Test indexDocument function
+// indexDocument
 TEST_F(IndexingTest, IndexDocument) {
     std::string docContent = "this is a test document";
     int docID = 1;
@@ -30,11 +28,10 @@ TEST_F(IndexingTest, IndexDocument) {
     ASSERT_EQ(invertedIndex["document"], std::vector<int>({docID}));
 }
 
-// Test buildIndex function
+//  buildIndex 
 TEST_F(IndexingTest, BuildIndex) {
     std::vector<std::string> documentFiles = {"doc1.txt", "doc2.txt"};
 
-    // Create mock document files
     std::ofstream file1("doc1.txt");
     file1 << "hello world";
     file1.close();
@@ -49,7 +46,6 @@ TEST_F(IndexingTest, BuildIndex) {
     ASSERT_EQ(invertedIndex["world"], std::vector<int>({0, 1}));
     ASSERT_EQ(invertedIndex["goodbye"], std::vector<int>({1}));
 
-    // Clean up mock files
     std::remove("doc1.txt");
     std::remove("doc2.txt");
 }

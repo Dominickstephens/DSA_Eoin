@@ -3,7 +3,6 @@
 
 #include "../include/TrieNode.h"
 
-// Constructor implementation
 template <typename T>
 TrieNode<T>::TrieNode() : isEndOfWord(false) {}
 

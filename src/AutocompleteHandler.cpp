@@ -1,7 +1,7 @@
 #include "../include/AutocompleteHandler.h"
-#include "vectorBook.h"
-#include "IndexEntry.h"
-#include "documentIndex.h"
+#include "../include/vectorBook.h"
+#include "../include/IndexEntry.h"
+#include "../include/documentIndex.h"
 #include <iostream>
 #include <filesystem>
 #include <fstream>
@@ -9,50 +9,44 @@
 #include <algorithm>
 #include <conio.h>
 #include <windows.h>
-typedef unsigned char byte;  // Explicit declaration
-
-// Prevent potential macro conflicts
+typedef unsigned char byte;
 #ifdef min
 #undef min
 #endif
 
 namespace fs = std::filesystem;
 
-// Helper function to convert a string to lowercase
+// convert a string to lowercase
 std::string toLowerCase(const std::string& str) {
     std::string lower = str;
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
     return lower;
 }
 
-// Function to load words from a hashmap and insert them into the Trie
+// load words from a hashmap and insert them into the Trie
 void loadBookTitles(Trie<char>& trie, const documentIndex<string, vectorClass<IndexEntry>>& index) {
     for (const auto& bucket : index.table) {
         for (const auto& pair : bucket) {
-            trie.insert(pair.first);  // Insert the key (word) into the Trie
+            trie.insert(pair.first);  
         }
     }
 }
 
-// Function to set cursor position
 void setCursorPosition(int x, int y) {
     COORD coord = { (SHORT)x, (SHORT)y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-// Function to set text color
 void setTextColor(WORD color) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
 
-// Set text color to pink (closest to pink using Windows API)
 void setTextColorPink() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
 
-// Prints the input and suggestions inline
 void printSuggestions(const std::vector<std::string>& suggestions, const std::string& input, std::vector<std::string>::size_type selectedIndex) {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
@@ -77,7 +71,6 @@ void printSuggestions(const std::vector<std::string>& suggestions, const std::st
     std::cout.flush();
 }
 
-// Returns the last word from input
 std::string getLastWord(const std::string& input) {
     std::istringstream iss(input);
     std::string lastWord;
@@ -85,17 +78,16 @@ std::string getLastWord(const std::string& input) {
     return lastWord;
 }
 
-// Replaces the last word in input with a suggestion
 std::string replaceLastWord(const std::string& input, const std::string& suggestion) {
     size_t lastSpace = input.find_last_of(' ');
     if (lastSpace != std::string::npos) {
         return input.substr(0, lastSpace + 1) + suggestion;
     } else {
-        return suggestion;  // No spaces, replace the entire input
+        return suggestion;  // replace the entire input
     }
 }
 
-// Prints updated input after accepting suggestions
+// prints updated input after accepting suggestions
 void printUpdatedInput(const std::string& input) {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
@@ -110,7 +102,7 @@ void printUpdatedInput(const std::string& input) {
     std::cout.flush();
 }
 
-// Handles the autocomplete functionality and user input
+// handles the autocomplete functionality and user input
 std::string handleAutocompleteInput(Trie<char>& trie, const std::string& exitCommand) {
     HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
     DWORD mode;

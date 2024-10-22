@@ -3,13 +3,12 @@
 #include <sstream>
 #include <algorithm>
 #include <unordered_set>
-#include "IndexEntry.h"
-#include "documentIndex.h"
+#include "../include/IndexEntry.h"
+#include "../include/documentIndex.h"
 
 
 using namespace std;
 
-// Helper function to check if an entry contains all keywords
 bool containsAllKeywords(const vectorClass<string>& keywords, const vectorClass<IndexEntry>& entries, documentIndex<std::string, vectorClass<IndexEntry>> index) {
     unordered_set<string> entryFiles;
     for (size_t i = 0; i < entries.size(); ++i) {
@@ -19,11 +18,10 @@ bool containsAllKeywords(const vectorClass<string>& keywords, const vectorClass<
         for (size_t i = 0; i < keywords.size(); ++i) {
             if (index.find(keywords[i]) == index.end()) return false;
         }
-        return true;
     }
+       return true;
 }
 
-// Helper function to check if any entry contains any keyword
 bool containsAnyKeywords(const vectorClass<string>& keywords, const vectorClass<IndexEntry>& entries, documentIndex<std::string, vectorClass<IndexEntry>> index) {
     for (size_t i = 0; i < keywords.size(); ++i) {
         if (index.find(keywords[i]) != index.end()) {
@@ -33,7 +31,6 @@ bool containsAnyKeywords(const vectorClass<string>& keywords, const vectorClass<
     return false;
 }
 
-// Helper function to check if an entry contains none of the keywords
 bool containsNoneKeywords(const vectorClass<string>& keywords, const vectorClass<IndexEntry>& entries, documentIndex<std::string, vectorClass<IndexEntry>> index) {
     for (size_t i = 0; i < keywords.size(); ++i) {
         if (index.find(keywords[i]) != index.end()) {
@@ -43,15 +40,15 @@ bool containsNoneKeywords(const vectorClass<string>& keywords, const vectorClass
     return true;
 }
 
-// Function to parse a search query with AND, OR, NOT logic
+// parse a search query with AND, OR, NOT logic
 vectorClass<IndexEntry> search(const string& query, documentIndex<std::string, vectorClass<IndexEntry>> index) {
     vectorClass<IndexEntry> result;
 
-    // Tokenize the query
+    // tokenize the query
     stringstream ss(query);
     string token;
     vectorClass<string> andKeywords, orKeywords, notKeywords;
-    string logic = "AND";  // Default logic is AND
+    string logic = "AND";  // default logic is AND
 
     while (ss >> token) {
         if (token == "AND" || token == "OR" || token == "NOT") {
@@ -67,8 +64,7 @@ vectorClass<IndexEntry> search(const string& query, documentIndex<std::string, v
         }
     }
 
-
-    // AND logic: Find entries that contain all AND keywords
+    // AND logic: find entries that contain all AND keywords
     if (!andKeywords.empty()) {
         for (size_t i = 0; i < andKeywords.size(); ++i) {
             if (index.find(andKeywords[i]) != index.end()) {
@@ -84,7 +80,7 @@ vectorClass<IndexEntry> search(const string& query, documentIndex<std::string, v
         }
     }
 
-    // OR logic: Add entries that contain any OR keywords
+    // OR logic: add entries that contain any OR keywords
     if (!orKeywords.empty()) {
         for (size_t i = 0; i < orKeywords.size(); ++i) {
             {
@@ -101,13 +97,11 @@ vectorClass<IndexEntry> search(const string& query, documentIndex<std::string, v
             }
         }
 
-// NOT logic: Remove entries that contain any NOT keywords
+// NOT logic: remove entries that contain any NOT keywords
         result.erase_if([&](const IndexEntry &entry) {
-            // Check if the entry's filePath exists in the index
             if (index.find(entry.filePath) != index.end()) {
                 return !containsNoneKeywords(notKeywords, index.at(entry.filePath), index);
             }
-            // If filePath doesn't exist in index, we can keep the entry
             return false; // Don't remove the entry if the filePath isn't found
         });
 
