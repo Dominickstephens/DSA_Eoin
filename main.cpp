@@ -1,6 +1,5 @@
 
 #include "include/search.h"
-#include <iostream>
 #include <set>
 #include <filesystem>
 #include <vector>
@@ -15,8 +14,9 @@
 #include "src/DocumentIndexer.h"
 #include "include/AsciiArt.h"
 #include "src/newSearch.h"
-#include "include/AccessBook.h"
-
+#include "include/utils.h"
+#include "include/quicksort.h"
+#include "include/pagination.h"
 
 int main()
 {
@@ -31,30 +31,35 @@ int main()
     AsciiArt::printColored("=============================================\n", yellow);
 
     // Print ASCII art
-    AsciiArt::printAsciiArtColored("cat_art.txt", pink);
+    AsciiArt::printAsciiArtColored(R"(C:\Users\Dominick\CLionProjects\DSA_project\cat_art.txt)", pink);
 
     AsciiArt::printColored("=============================================\n", yellow);
 
     // Step 1: Dynamically load document files from the "books" folder
     std::vector<std::string> documents;
-    std::string booksFolder = "books/";
+    std::string booksFolder = R"(C:\Users\Dominick\CLionProjects\DSA_project\books)";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
+    vectorClass<Pair<string, int>> fileWordCount;
 
     Trie<char> trie;
 
     std::string filename = "index.csv";
+    std::string Wordfilename = "WordCount.csv";
 
     if (!std::filesystem::exists(filename)) {
         DocumentIndexer indexer(booksFolder);
-        indexer.performIndexing(index);
+        indexer.performIndexing(index,fileWordCount);
         serialize(index, filename); // Call serialize only if the file does not exist
+        serializeWords(fileWordCount, Wordfilename);
     } else {
         deserialize(index, "index.csv");
+        deserializeWords(fileWordCount, "WordCount.csv");
     }
 
 // Load book titles into the Trie for autocomplete suggestions
     loadBookTitles(trie, index);
+
 
 // Step 3: Process a search query with autocomplete
     std::string query;
@@ -85,14 +90,19 @@ int main()
         {
 
             // Loop through and print the results
+            vectorClass<Pair<IndexEntry, double>> resultsVector;
             for (size_t i = 0; i < results.size(); ++i) {
-                std::cout << "File Path: " << results[i].filePath << std::endl;
-                std::cout << "File Name: " << results[i].fileName << std::endl;
-                for (size_t j = 0; j < 4 && j < results[i].positionOffsets.size(); ++j) {
-                    cout << printLineAtBytePosition(results[i].filePath, results[i].positionOffsets[j], autocompleteResult) << endl;
-                }
-                std::cout << std::endl << "-----------------" << std::endl;  // Divider for each entry
+//              generate tf-idf score
+                int wordCount = getWordCount("specificWord", fileWordCount);
+                double tf_idf = calculate_tf_idf(results[i].frequency, wordCount, fileWordCount.size(), results.size());
+                resultsVector.push(Pair(results[i], tf_idf));
+
             }
+
+            quickSort(resultsVector, 0, resultsVector.size() - 1);
+
+            int itemsPerPage = 5;
+            paginateResults(resultsVector, itemsPerPage);
 
         }
     }

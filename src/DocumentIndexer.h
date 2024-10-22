@@ -21,14 +21,14 @@ public:
     explicit DocumentIndexer(string  path);
 
     // Method to perform the indexing
-    void performIndexing(documentIndex<string, vectorClass<IndexEntry>>& index);
+    void performIndexing(documentIndex<string, vectorClass<IndexEntry>>& index, vectorClass<Pair<string, int>>& fileWordCount);
 
 private:
     string bookPath;
 
     // Helper function to process a file and insert into the index
     static void processFile(const filesystem::directory_entry& dirEntry,
-                     documentIndex<string, vectorClass<IndexEntry>>& index);
+                     documentIndex<string, vectorClass<IndexEntry>>& index, vectorClass<Pair<string, int>>& fileWordCount);
 
     // Utility function to remove punctuation and convert to lowercase
     static string removePunctuationsAndLower( string& s);

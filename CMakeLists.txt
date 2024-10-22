@@ -25,7 +25,7 @@ add_executable(DSA_project
         include/utils.h
         include/pairImp.h
         include/AsciiArt.h
-        src/AsciiArt.cpp src/newSearch.cpp src/newSearch.h src/newSearch.h src/AccessBook.cpp include/AccessBook.h)
+        src/AsciiArt.cpp src/newSearch.cpp src/newSearch.h src/newSearch.h src/AccessBook.cpp include/AccessBook.h include/quicksort.h src/quicksort.cpp src/pagination.cpp include/pagination.h)
 
 # Link any additional libraries if necessary
 target_link_libraries(DSA_project)

@@ -17,6 +17,11 @@ struct IndexEntry {
     vectorClass<streampos> positionOffsets; // List of line numbers where the word appears
 };
 
+struct TfIdfResult {
+    IndexEntry* result{};  // Reference to the IndexEntry (ensure the lifetime is properly managed)
+    double tf_idf{};
+};
+
 // Declare the operator<< here, but define it in the .cpp file
 std::ostream& operator<<(std::ostream& os, const IndexEntry& entry);
 
