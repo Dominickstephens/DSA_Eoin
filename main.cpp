@@ -46,6 +46,29 @@ std::string createHyperlink(const std::string &text, const std::string &url)
     return "\033]8;;" + url + "\033\\" + text + "\033]8;;\033\\";
 }
 
+// Function to URL-encode a string
+std::string urlEncode(const std::string &value)
+{
+    std::ostringstream escaped;
+    escaped.fill('0');
+    escaped << std::hex;
+
+    for (char c : value)
+    {
+        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~')
+        {
+            escaped << c;
+        }
+        else
+        {
+            escaped << '%' << std::setw(2) << int((unsigned char)c);
+        }
+    }
+
+    return escaped.str();
+}
+
+
 int main()
 {
     // Colors
@@ -130,7 +153,7 @@ int main()
             for (int docID : results.toVector())
             {
                 std::filesystem::path filePath(documents[docID]);
-                std::string fileLink = createHyperlink(filePath.filename().string(), "file://" + filePath.string());
+                std::string fileLink = createHyperlink(filePath.filename().string(), "file:///" + urlEncode(filePath.string()));
                 std::cout << "Document ID: " << docID << " - " << fileLink << " - " << filePath.parent_path().string() << "\n";
             }
         }
