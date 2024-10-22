@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>  // For std::out_of_range and std::runtime_error
+#include <functional>
 #include "../include/vectorBook.h"
 
 using namespace std;
@@ -175,4 +176,15 @@ vectorClass<T>& vectorClass<T>::operator=(const vectorClass<T>& other) {
     }
 
     return *this;
+}
+
+template <typename T>
+void vectorClass<T>::erase_if(std::function<bool(const T&)> predicate) {
+    int newSize = 0; // New size after removal
+    for (int i = 0; i < current; i++) {
+        if (!predicate(arr[i])) {
+            arr[newSize++] = arr[i];  // Keep the value if it does not satisfy the predicate
+        }
+    }
+    current = newSize;  // Update current size
 }

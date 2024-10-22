@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <windows.h>   // For Windows API
+typedef unsigned char byte;  // Explicit declaration
 #include "Trie.h"
 #include "IndexEntry.h"
 #include "documentIndex.h"

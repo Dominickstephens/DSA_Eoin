@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <conio.h>
 #include <windows.h>
+typedef unsigned char byte;  // Explicit declaration
 
 // Prevent potential macro conflicts
 #ifdef min
