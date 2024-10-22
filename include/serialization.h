@@ -94,4 +94,45 @@ void deserialize(documentIndex<KeyType, ValueType> &index, const string &filenam
     }
 }
 
+void serializeWords(vectorClass<Pair<string, int>>& fileWordCount, const string& filename) {
+    ofstream outfile(filename);
+    if (outfile.is_open()) {
+        // Write header
+        outfile << "Word,Count" << endl;  // CSV header
+
+        // Iterate through the fileWordCount vector
+        for (size_t i = 0; i < fileWordCount.size(); ++i) {
+            outfile << fileWordCount[i].first << "," << fileWordCount[i].second << endl;
+        }
+        outfile.close();
+    } else {
+        cerr << "Unable to open file for writing." << endl;
+    }
+}
+
+
+void deserializeWords(vectorClass<Pair<string, int>>& fileWordCount, const string& filename) {
+    ifstream infile(filename);
+    string line;
+
+    if (infile.is_open()) {
+        // Skip the header line
+        getline(infile, line);
+
+        while (getline(infile, line)) {
+            istringstream ss(line);
+            string word;
+            int count;
+
+            // Split the line into the word and count part by the comma
+            if (getline(ss, word, ',') && ss >> count) {
+                fileWordCount.push(Pair<string, int>(word, count));
+            }
+        }
+        infile.close();
+    } else {
+        cerr << "Unable to open file for reading." << endl;
+    }
+}
+
 #endif 

@@ -27,12 +27,7 @@ add_executable(DSA_project
         src/Set.tpp
         include/pairImp.h
         include/AsciiArt.h
-        src/AsciiArt.cpp
-        src/newSearch.cpp
-        include/newSearch.h
-        src/AccessBook.cpp
-        include/AccessBook.h
-)
+        src/AsciiArt.cpp src/newSearch.cpp include/newSearch.h src/AccessBook.cpp include/AccessBook.h include/quicksort.h src/quicksort.cpp src/pagination.cpp include/pagination.h)
 
 # Download and add GoogleTest as a subdirectory
 add_subdirectory(external/googletest)

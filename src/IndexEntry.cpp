@@ -14,23 +14,47 @@ ostream& operator<<(ostream& os, const IndexEntry& entry) {
 
 // parse a serialized string into an IndexEntry
 IndexEntry parseIndexEntry(const string& str) {
-    istringstream ss(str);
+    string modifiedStr = str;
+
+    // Check if the first character is a comma
+    if (!str.empty() && str[0] == ',') {
+        // Remove the first character (comma)
+        modifiedStr = str.substr(1);
+    }
+
+    istringstream ss(modifiedStr);
     IndexEntry entry;
     string bytePositionsStr;
 
-    getline(ss, entry.filePath, ',');
-    getline(ss, entry.fileName, ',');
-    ss >> entry.frequency;
-    ss.ignore();  // Ignore the comma
+    // Extract filePath, fileName, and frequency
+    if (getline(ss, entry.filePath, ',') &&
+        getline(ss, entry.fileName, ',') &&
+        (ss >> entry.frequency)) {
+        ss.ignore();  // Ignore the comma
 
-    // Extract the byte positions
-    getline(ss, bytePositionsStr);
-    istringstream bytePositionsStream(bytePositionsStr);
-    string bytePosition;
+        // Check for empty filePath and log a warning
+        if (entry.filePath.empty()) {
+            cerr << "Warning: Empty filePath encountered in entry: " << str << endl;
+        }
 
-    while (getline(bytePositionsStream, bytePosition, '|')) {
-        entry.positionOffsets.push(static_cast<streampos>(stoll(bytePosition)));
+        // Extract the byte positions (split by pipe "|")
+        getline(ss, bytePositionsStr);
+        istringstream bytePositionsStream(bytePositionsStr);
+        string bytePosition;
+
+        while (getline(bytePositionsStream, bytePosition, '|')) {
+            // Convert the string to streampos (using stoll for long long conversion)
+            try {
+                entry.positionOffsets.push(static_cast<streampos>(stoll(bytePosition)));
+            } catch (const std::exception& e) {
+                cerr << "Error parsing byte position: " << bytePosition << " - " << e.what() << endl;
+            }
+        }
+    } else {
+        cerr << "Failed to parse IndexEntry from string: " << str << endl;
+        // Handle error, possibly return a default entry or throw
     }
 
     return entry;
 }
+
