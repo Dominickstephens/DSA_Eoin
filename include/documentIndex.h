@@ -32,17 +32,17 @@ public:
                         value.frequency += pair.second[i].frequency;
                         pair.second[i].positionOffsets.push(value.positionOffsets[0]);
                         value.positionOffsets = pair.second[i].positionOffsets;
-                        pair.second[i] = value;  // Replace existing value if duplicate
+                        pair.second[i] = value;  
                         return;
                     }
                 }
-                pair.second.push(value);  // Add value if no duplicate found
+                pair.second.push(value);  
                 return;
             }
         }
         vectorClass<IndexEntry> vec;
         vec.push(value);
-        table[index].emplace_back(key, vec);  // Add new pair if key doesn't exist
+        table[index].emplace_back(key, vec);  
         ++numElements;
     }
 
@@ -52,14 +52,13 @@ public:
         }
 
         size_t index = stringHash(key) % table.size();
-        table[index].emplace_back(key, value);  // Add new pair if key doesn't exist
+        table[index].emplace_back(key, value);  
         ++numElements;
     }
 
     // Find a value by key
     ValueType* find(const KeyType& key) {
         size_t index = stringHash(key) % table.size();
-//        cout << "Index: " << index << endl;
         for (auto& pair : table[index]) {
             if (pair.first == key) {
                 return &pair.second;
@@ -78,7 +77,7 @@ public:
         throw out_of_range("Key not found in documentIndex");
     }
 
-    // New: Return an "end" iterator equivalent
+   
     ValueType* end() {
         return nullptr;  // Acts like an "end" for comparison with find()
     }
@@ -99,12 +98,10 @@ public:
         return true;
     }
 
-    // Operator != to compare two documentIndex instances
     bool operator!=(const documentIndex& other) const {
         return !(*this == other);
     }
 
-    // Print the document index
     void print() {
         for (const auto& bucket : table) {
             if (!bucket.empty()) {
@@ -113,10 +110,10 @@ public:
                     if (!pair.second.empty()) {
                         for (size_t i = 0; i < pair.second.size(); ++i) {
                             cout << pair.second[i];
-                            if (i < pair.second.size() - 1) cout << ", "; // Comma separation
+                            if (i < pair.second.size() - 1) cout << ", "; 
                         }
                     } else {
-                        cout << "No Values"; // Handle empty value case
+                        cout << "No Values"; 
                     }
                     cout << endl;
                 }
@@ -124,7 +121,6 @@ public:
         }
     }
 
-    // Print the first key-value pair in the document index
     void printFirstPair() {
         for (const auto& bucket : table) {
             if (!bucket.empty()) {  // Check for the first non-empty bucket
@@ -135,18 +131,17 @@ public:
                     if (i < firstPair.second.size() - 1) cout << ", ";
                 }
                 cout << endl;
-                return;  // Exit after printing the first pair
+                return;  
             }
         }
         cout << "No elements in the document index." << endl;
     }
 
-    // Remove a specific value from all key-value pairs
     void removeValue(const typename ValueType::value_type& value) {
         for (auto& bucket : table) {
             for (auto& pair : bucket) {
-                auto& vec = pair.second;  // Assuming pair.second is of type ValueType
-                vec.remove(value);  // Call the custom remove method defined in vectorClass
+                auto& vec = pair.second;  
+                vec.remove(value);  
             }
         }
     }
@@ -156,7 +151,6 @@ private:
     float loadFactor = 0.75;
     const int PRIME_CONST = 31;
 
-    // Change the type of the loop variable to size_t
     size_t stringHash(const string& key) {
         size_t hashCode = 0;
         for (char i : key) {
@@ -165,8 +159,7 @@ private:
         return hashCode;
     }
 
-    // Hash table (buckets)
-    size_t numElements;  // Number of elements in the map
+    size_t numElements;  
 
     // Resize and rehash the table when it becomes too full
     void rehash() {

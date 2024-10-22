@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-// Function declaration for tokenizing strings
+// tokenizing strings
 std::vector<std::string> tokenize(const std::string &text);
 
-#endif // UTILS_H
+#endif

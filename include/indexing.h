@@ -5,12 +5,11 @@
 #include <vector>
 #include <unordered_map>
 
-// Declare the inverted index (shared globally)
+// Inverted index (shared globally)
 extern std::unordered_map<std::string, std::vector<int>> invertedIndex;
 
-// Function declarations
 std::vector<std::string> tokenize(const std::string &text);
 void indexDocument(const std::string &docContent, int docID);
 void buildIndex(const std::vector<std::string> &documentFiles);
 
-#endif // INDEXING_H
+#endif
