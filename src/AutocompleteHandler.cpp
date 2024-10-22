@@ -142,11 +142,11 @@ std::string handleAutocompleteInput(Trie<char>& trie, const std::string& exitCom
                         input = replaceLastWord(input, suggestions[selectedIndex]);
                     }
                     printUpdatedInput(input);
-                } else if (c == 'n') {
+                } else if (c == '>') {
                     if (!suggestions.empty()) {
                         selectedIndex = (selectedIndex + 1) % suggestions.size();  // Cycle forward
                     }
-                } else if (c == 'p') {
+                } else if (c == '<') {
                     if (!suggestions.empty()) {
                         selectedIndex = (selectedIndex == 0) ? suggestions.size() - 1 : selectedIndex - 1;  // Cycle backward
                     }
