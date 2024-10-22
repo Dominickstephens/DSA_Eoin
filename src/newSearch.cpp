@@ -68,7 +68,6 @@ vectorClass<IndexEntry> search(const string& query, documentIndex<std::string, v
     }
 
 
-
     // AND logic: Find entries that contain all AND keywords
     if (!andKeywords.empty()) {
         for (size_t i = 0; i < andKeywords.size(); ++i) {
@@ -92,9 +91,9 @@ vectorClass<IndexEntry> search(const string& query, documentIndex<std::string, v
                 if (index.find(orKeywords[i]) != index.end()) {
                     auto &entries = index.at(orKeywords[i]);
                     if (!entries.empty()) { // Ensure entries is not empty
-                        for (const auto &entry: entries) {
-                            if (containsAnyKeywords(andKeywords, entries, index)) {
-                                result.push(entry);
+                        for (size_t i = 0; i < entries.size(); ++i) {
+                            if (containsAnyKeywords(orKeywords, entries, index)) {
+                                result.push(entries[i]);
                             }
                         }
                     }

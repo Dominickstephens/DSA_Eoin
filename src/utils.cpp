@@ -28,9 +28,9 @@ int getWordCount(const std::string &text, vectorClass<Pair<string, int>> fileWor
 
 double calculate_tf_idf(const int frequency, const int totalWords, int totalDocuments, int totalDocumentsWithWord) {
     if (totalDocumentsWithWord == 0) {
-        totalDocumentsWithWord = 1;  // Avoid division by zero
+        totalDocumentsWithWord = 1;
     }
     double tf = (double) frequency / totalWords;
     double idf = log((double) totalDocuments / totalDocumentsWithWord);
-    return tf * idf * 100;  // You can decide whether to scale by 100
+    return tf * idf * 100;
 }

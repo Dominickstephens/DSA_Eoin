@@ -28,11 +28,12 @@ string printLineAtBytePosition(const std::string& fileName, std::streampos byteP
     // Check if we reached the end of the file before reading a line
     if (file.eof() && line.empty()) {
 //        std::cout << "No line found at byte position " << bytePosition << std::endl;
+        file.close();
         return "";
     } else {
         // Coloring the keyword in green
-        std::string greenColor = "\033[32m"; // ANSI code for green
-        std::string resetColor = "\033[0m";  // ANSI code to reset color
+        std::string greenColor = "\033[32m";
+        std::string resetColor = "\033[0m";
 
         // Find the keyword in the line and replace it with colored version
         size_t pos = line.find(keyword);
@@ -42,6 +43,7 @@ string printLineAtBytePosition(const std::string& fileName, std::streampos byteP
         }
 
 //        std::cout << "Line at byte position " << bytePosition << ": " << line << std::endl;
+        file.close();
         return line;
     }
 
