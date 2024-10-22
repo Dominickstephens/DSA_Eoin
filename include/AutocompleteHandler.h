@@ -3,8 +3,8 @@
 #include <vector>
 #include <windows.h>   // For Windows API
 #include "Trie.h"
-#include "../src/IndexEntry.h"
-#include "../src/documentIndex.h"
+#include "IndexEntry.h"
+#include "documentIndex.h"
 
 // Converts a string to lowercase for case-insensitive matching
 std::string toLowerCase(const std::string& str);

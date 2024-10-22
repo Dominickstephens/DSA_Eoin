@@ -2,7 +2,7 @@
 // Created by Dominick on 20/10/2024.
 //
 
-#include "DocumentIndexer.h"
+#include "../include/DocumentIndexer.h"
 
 #include <utility>
 #include <regex>

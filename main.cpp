@@ -9,11 +9,11 @@
 #include <regex>
 #include "include/Trie.h"
 #include "include/AutocompleteHandler.h"
-#include "src/vectorBook.h"
-#include "src/documentIndex.h"
-#include "src/IndexEntry.h"
-#include "src/serialization.h"
-#include "src/DocumentIndexer.h"
+#include "include/vectorBook.h"
+#include "include/documentIndex.h"
+#include "include/IndexEntry.h"
+#include "include/serialization.h"
+#include "include/DocumentIndexer.h"
 
 // Function to print colored text
 void printColored(const std::string &text, const std::string &color)
@@ -53,13 +53,13 @@ int main()
     printColored("=============================================\n", yellow);
 
     // Print ASCII art
-    printAsciiArtColored("cat_art.txt", pink);
+    printAsciiArtColored("C:/Users/PC/OneDrive - University of Limerick/3rd Year/CS4437/Development/DSA Project/DSA_Eoin/cat_art.txt", pink);
 
     printColored("=============================================\n", yellow);
 
     // Step 1: Dynamically load document files from the "books" folder
     std::vector<std::string> documents;
-    std::string booksFolder = "books/";
+    std::string booksFolder = "C:/Users/PC/OneDrive - University of Limerick/3rd Year/CS4437/Development/DSA Project/DSA_Eoin/books";
 
     for (const auto &entry : std::filesystem::directory_iterator(booksFolder))
     {
@@ -69,7 +69,7 @@ int main()
     // Step 2: Build the index for the documents
     buildIndex(documents);
 
-    const std::string bookDirectory = "books";
+    const std::string bookDirectory = "C:/Users/PC/OneDrive - University of Limerick/3rd Year/CS4437/Development/DSA Project/DSA_Eoin/books";
 
     documentIndex<string, vectorClass<IndexEntry>> index;
 

@@ -5,24 +5,24 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Add the main project executable
 add_executable(DSA_project
-        main.cpp
-        include/TrieNode.h
-        include/Trie.h
-        include/AutocompleteHandler.h
-        src/AutocompleteHandler.cpp
-        src/vectorBook.tpp
-        include/serialization.h
-        include/documentIndex.h
-        include/IndexEntry.h
-        src/DocumentIndexer.cpp
-        include/DocumentIndexer.h
-        src/IndexEntry.cpp
-        src/indexing.cpp
-        include/indexing.h
-        src/search.cpp
-        include/search.h
-        src/utils.cpp
-        include/utils.h
+    main.cpp
+    include/TrieNode.h
+    include/Trie.h
+    include/AutocompleteHandler.h
+    src/AutocompleteHandler.cpp
+    src/vectorBook.tpp
+    include/serialization.h
+    include/documentIndex.h
+    include/IndexEntry.h
+    src/DocumentIndexer.cpp
+    include/DocumentIndexer.h
+    src/IndexEntry.cpp
+    src/indexing.cpp
+    include/indexing.h
+    src/search.cpp
+    include/search.h
+    src/utils.cpp
+    include/utils.h
 )
 
 # Link any additional libraries if necessary
