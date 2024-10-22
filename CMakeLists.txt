@@ -65,7 +65,7 @@ add_executable(test_indexing
         src/utils.cpp
         include/utils.h
         tests/test_trie.cpp
-        tests/test_trieNode.cpp
+        tests/test_trie_node.cpp
 )
 
 # Link the test executable with GoogleTest
@@ -90,3 +90,41 @@ target_link_libraries(test_search gtest gtest_main)
 
 # Register the search test
 add_test(NAME test_search COMMAND test_search)
+
+# Test executable for AutocompleteHandler tests
+add_executable(test_autocomplete_handler
+        tests/test_autocomplete_handler.cpp
+        src/AutocompleteHandler.cpp
+        include/AutocompleteHandler.h
+        include/Trie.h
+        src/IndexEntry.h
+        src/documentIndex.h
+)
+
+# Link the autocomplete test executable with GoogleTest
+target_link_libraries(test_autocomplete_handler gtest gtest_main)
+
+# Register the autocomplete handler test
+add_test(NAME test_autocomplete_handler COMMAND test_autocomplete_handler)
+
+# Test executable for Trie tests
+add_executable(test_trie
+        tests/test_trie.cpp
+)
+
+# Link the Trie test executable with GoogleTest
+target_link_libraries(test_trie gtest gtest_main)
+
+# Register the Trie test
+add_test(NAME test_trie COMMAND test_trie)
+
+# Test executable for TrieNode tests
+add_executable(test_trie_node
+        tests/test_trie_node.cpp
+)
+
+# Link the TrieNode test executable with GoogleTest
+target_link_libraries(test_trie_node gtest gtest_main)
+
+# Register the TrieNode test
+add_test(NAME test_trie_node COMMAND test_trie_node)
