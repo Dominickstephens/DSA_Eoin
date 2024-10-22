@@ -15,6 +15,7 @@
 #include "src/DocumentIndexer.h"
 #include "include/AsciiArt.h"
 #include "src/newSearch.h"
+#include "include/AccessBook.h"
 
 
 int main()
@@ -45,20 +46,13 @@ int main()
     std::string filename = "index.csv";
 
     if (!std::filesystem::exists(filename)) {
-        cout << "File does not exist. Serialization performed." << endl;
         DocumentIndexer indexer(booksFolder);
         indexer.performIndexing(index);
         serialize(index, filename); // Call serialize only if the file does not exist
     } else {
-        cout << "File already exists. Serialization skipped." << endl;
         deserialize(index, "index.csv");
     }
-    index.printFirstPair();  // Assuming this prints the first key-value pair of the document index
-    if (index.find("fegfiwefbewbfiuwe") != index.end()) {
-        cout << "Keyword found in the document index." << endl;
-    } else {
-        cout << "Keyword not found in the document index." << endl;
-    }
+
 // Load book titles into the Trie for autocomplete suggestions
     loadBookTitles(trie, index);
 
@@ -94,11 +88,8 @@ int main()
             for (size_t i = 0; i < results.size(); ++i) {
                 std::cout << "File Path: " << results[i].filePath << std::endl;
                 std::cout << "File Name: " << results[i].fileName << std::endl;
-                std::cout << "Frequency: " << results[i].frequency << std::endl;
-
-                cout << results[i].positionOffsets.size() << endl;
-                for (size_t j = 0; j < results[i].positionOffsets.size(); ++j) {
-                    std::cout << results[i].positionOffsets[j] << " | ";  // Print each position offset
+                for (size_t j = 0; j < 4 && j < results[i].positionOffsets.size(); ++j) {
+                    cout << printLineAtBytePosition(results[i].filePath, results[i].positionOffsets[j], autocompleteResult) << endl;
                 }
                 std::cout << std::endl << "-----------------" << std::endl;  // Divider for each entry
             }

@@ -59,7 +59,7 @@ public:
     // Find a value by key
     ValueType* find(const KeyType& key) {
         size_t index = stringHash(key) % table.size();
-        cout << "Index: " << index << endl;
+//        cout << "Index: " << index << endl;
         for (auto& pair : table[index]) {
             if (pair.first == key) {
                 return &pair.second;
