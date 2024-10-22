@@ -99,8 +99,8 @@ add_executable(test_autocomplete_handler
         src/AutocompleteHandler.cpp
         include/AutocompleteHandler.h
         include/Trie.h
-        src/IndexEntry.h
-        src/documentIndex.h
+        include/IndexEntry.h
+        include/documentIndex.h
 )
 
 # Link the autocomplete test executable with GoogleTest
