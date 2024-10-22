@@ -14,13 +14,13 @@
 #include "include/serialization.h"
 #include "include/DocumentIndexer.h"
 
-// Function to print colored text
+// print colored text
 void printColored(const std::string &text, const std::string &color)
 {
     std::cout << color << text << "\033[0m";
 }
 
-// Function to print the ASCII art from a file with a specific color
+// print the ASCII art
 void printAsciiArtColored(const std::string &filename, const std::string &color)
 {
     std::ifstream file(filename);
@@ -42,21 +42,21 @@ void printAsciiArtColored(const std::string &filename, const std::string &color)
 
 int main()
 {
-    // Colors
+    // colors
     const std::string yellow = "\033[38;5;229m";
     const std::string blue = "\033[38;5;153m";
     const std::string pink = "\033[38;5;218m";
 
-    // Welcome banner
+    // welcome banner
     printColored("Welcome to the JellyCats Library!\n", yellow);
     printColored("=============================================\n", yellow);
 
-    // Print ASCII art
+    // ASCII art
     printAsciiArtColored("cat_art.txt", pink);
 
     printColored("=============================================\n", yellow);
 
-    // Step 1: Dynamically load document files from the "books" folder
+    // dynamically load document files from the "books" folder
     std::vector<std::string> documents;
     std::string booksFolder = "books/";
 
@@ -65,7 +65,7 @@ int main()
         documents.push_back(entry.path().string());
     }
 
-    // Step 2: Build the index for the documents
+    // build the index for the documents
     buildIndex(documents);
 
     const std::string bookDirectory = "books/";
@@ -80,7 +80,7 @@ int main()
         cout << "File does not exist. Serialization performed." << endl;
         DocumentIndexer indexer(bookDirectory);
         indexer.performIndexing(index);
-        serialize(index, filename); // Call serialize only if the file does not exist
+        serialize(index, filename); 
     } else {
         cout << "File already exists. Serialization skipped." << endl;
     }
@@ -88,29 +88,27 @@ int main()
     deserialize(index2, "index.csv");
     index2.printFirstPair();
 
-    // Load book titles into the Trie for autocomplete suggestions
+    // load book titles into the Trie for autocomplete suggestions
     loadBookTitles(trie, index2);
 
-    // Step 3: Process a search query with autocomplete
+    // process a search query with autocomplete
     std::string query;
     while (true)
     {
         printColored("(Type 'exit' to quit)\n", blue);
         printColored("Enter search query: ", blue);
 
-        // Handle autocomplete functionality
         std::string autocompleteResult = handleAutocompleteInput(trie, "exit");
 
-        // If the user types 'exit', break the loop
         if (autocompleteResult == "exit")
         {
             break;
         }
 
-         // Use the selected/entered term from autocomplete to perform the search
+        // use the entered term from autocomplete to perform the search
         Set<int> results = booleanSearch(autocompleteResult, documents);
 
-       // Display the results
+       // display results
         printColored("Search Results:\n", pink);
         if (results.toVector().empty())
         {
