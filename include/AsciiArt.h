@@ -8,6 +8,13 @@
 
 class AsciiArt {
 
+public:
+    // Function to print colored text
+    static void printColored(const std::string &text, const std::string &color);
+
+    // Function to print the ASCII art from a file with a specific color
+    static void printAsciiArtColored(const std::string &filename, const std::string &color);
+
 };
 
 

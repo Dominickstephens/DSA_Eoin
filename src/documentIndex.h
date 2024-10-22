@@ -30,8 +30,8 @@ public:
                 for (size_t i = 0; i < pair.second.size(); ++i) {
                     if (pair.second[i].filePath == value.filePath) {
                         value.frequency += pair.second[i].frequency;
-                        pair.second[i].bytePositions.push(value.bytePositions[0]);
-                        value.bytePositions = pair.second[i].bytePositions;
+                        pair.second[i].positionOffsets.push(value.positionOffsets[0]);
+                        value.positionOffsets = pair.second[i].positionOffsets;
                         pair.second[i] = value;  // Replace existing value if duplicate
                         return;
                     }
@@ -59,12 +59,49 @@ public:
     // Find a value by key
     ValueType* find(const KeyType& key) {
         size_t index = stringHash(key) % table.size();
+        cout << "Index: " << index << endl;
         for (auto& pair : table[index]) {
             if (pair.first == key) {
                 return &pair.second;
             }
         }
         return nullptr;
+    }
+
+    ValueType& at(const KeyType& key) {
+        size_t index = stringHash(key) % table.size();
+        for (auto& pair : table[index]) {
+            if (pair.first == key) {
+                return pair.second;
+            }
+        }
+        throw out_of_range("Key not found in documentIndex");
+    }
+
+    // New: Return an "end" iterator equivalent
+    ValueType* end() {
+        return nullptr;  // Acts like an "end" for comparison with find()
+    }
+
+    bool operator==(const documentIndex& other) const {
+        if (numElements != other.numElements) {
+            return false;
+        }
+        if (table.size() != other.table.size()) {
+            return false;
+        }
+        // Compare each bucket in the table
+        for (size_t i = 0; i < table.size(); ++i) {
+            if (table[i] != other.table[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Operator != to compare two documentIndex instances
+    bool operator!=(const documentIndex& other) const {
+        return !(*this == other);
     }
 
     // Print the document index

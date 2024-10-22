@@ -1,10 +1,9 @@
-#include "include/indexing.h"
+
 #include "include/search.h"
 #include <iostream>
 #include <set>
 #include <filesystem>
 #include <vector>
-#include <fstream>
 #include <string>
 #include <regex>
 #include "include/Trie.h"
@@ -15,6 +14,7 @@
 #include "src/serialization.h"
 #include "src/DocumentIndexer.h"
 #include "include/AsciiArt.h"
+#include "src/newSearch.h"
 
 
 int main()
@@ -51,15 +51,18 @@ int main()
         serialize(index, filename); // Call serialize only if the file does not exist
     } else {
         cout << "File already exists. Serialization skipped." << endl;
+        deserialize(index, "index.csv");
     }
-    documentIndex<string, vectorClass<IndexEntry>> index2;
-    deserialize(index2, "index.csv");
-    index2.printFirstPair();
+    index.printFirstPair();  // Assuming this prints the first key-value pair of the document index
+    if (index.find("fegfiwefbewbfiuwe") != index.end()) {
+        cout << "Keyword found in the document index." << endl;
+    } else {
+        cout << "Keyword not found in the document index." << endl;
+    }
+// Load book titles into the Trie for autocomplete suggestions
+    loadBookTitles(trie, index);
 
-    // Load book titles into the Trie for autocomplete suggestions
-    loadBookTitles(trie, index2);
-
-    // Step 3: Process a search query with autocomplete
+// Step 3: Process a search query with autocomplete
     std::string query;
     while (true)
     {
@@ -76,7 +79,7 @@ int main()
         }
 
         // Use the selected/entered term from autocomplete to perform the search
-        std::set<int> results = booleanSearch(autocompleteResult, documents);
+        vectorClass<IndexEntry> results = search(autocompleteResult, index);
 
         // Display the results
         AsciiArt::printColored("Search Results:\n", pink);
@@ -86,11 +89,20 @@ int main()
         }
         else
         {
-            for (int docID : results)
-            {
-                std::filesystem::path filePath(documents[docID]);
-                std::cout << "Document ID: " << docID << " - " << filePath.filename().string() << " - " << filePath.parent_path().string() << "\n";
+
+            // Loop through and print the results
+            for (size_t i = 0; i < results.size(); ++i) {
+                std::cout << "File Path: " << results[i].filePath << std::endl;
+                std::cout << "File Name: " << results[i].fileName << std::endl;
+                std::cout << "Frequency: " << results[i].frequency << std::endl;
+
+                cout << results[i].positionOffsets.size() << endl;
+                for (size_t j = 0; j < results[i].positionOffsets.size(); ++j) {
+                    std::cout << results[i].positionOffsets[j] << " | ";  // Print each position offset
+                }
+                std::cout << std::endl << "-----------------" << std::endl;  // Divider for each entry
             }
+
         }
     }
 

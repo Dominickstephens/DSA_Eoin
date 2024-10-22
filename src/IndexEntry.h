@@ -14,7 +14,7 @@ struct IndexEntry {
     string filePath;     // The full path to the file
     string fileName;     // The name of the file
     int frequency{};            // Count of how often the word appears
-    vectorClass<streampos> bytePositions; // List of line numbers where the word appears
+    vectorClass<streampos> positionOffsets; // List of line numbers where the word appears
 };
 
 // Declare the operator<< here, but define it in the .cpp file

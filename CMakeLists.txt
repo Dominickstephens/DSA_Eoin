@@ -23,13 +23,15 @@ add_executable(DSA_project
         include/search.h
         src/utils.cpp
         include/utils.h
-)
+        include/pairImp.h
+        include/AsciiArt.h
+        src/AsciiArt.cpp src/newSearch.cpp src/newSearch.h src/newSearch.h)
 
 # Link any additional libraries if necessary
 target_link_libraries(DSA_project)
 
 # Download and add GoogleTest
-add_subdirectory(external/googletest)
+#add_subdirectory(external/googletest)
 
 # Enable testing
 enable_testing()
