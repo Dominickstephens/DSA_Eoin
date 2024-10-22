@@ -29,7 +29,7 @@ add_executable(DSA_project
         include/AsciiArt.h
         src/AsciiArt.cpp 
         src/newSearch.cpp 
-        src/newSearch.h
+        include/newSearch.h
         src/AccessBook.cpp 
         include/AccessBook.h
 )
